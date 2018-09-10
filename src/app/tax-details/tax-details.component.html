@@ -1,0 +1,46 @@
+<app-header></app-header>
+<div class="container">
+  <h4>Tax Details</h4>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Date</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Status</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let taxDetail of taxDetails;index as i">
+        <th scope="row">{{i+1}}</th>
+        <td *ngIf="taxDetail.lastTaxPaidOn==null">N/A</td><td *ngIf="taxDetail.lastTaxPaidOn!=null">{{taxDetail.lastTaxPaidOn}}</td>
+        <td>{{taxDetail.amount}}</td>
+        <td>{{taxDetail.currentTaxPaymentStatus}}</td>
+        <td *ngIf="taxDetail.currentTaxPaymentStatus!='DUE'">None</td><td *ngIf="taxDetail.currentTaxPaymentStatus=='DUE'"><button (click)="payTax(taxDetail.taxDetailId)" class="btn btn-primary">Pay Tax</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    </div>
+  </ng-template>
+  <div style="height: 600px;"></div>
+</div>
+
+<app-footer></app-footer>

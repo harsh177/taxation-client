@@ -1,0 +1,58 @@
+<app-header></app-header>
+<!-- Page Content -->
+
+<div class="container">
+    <h4>Pay Tax</h4>
+    <hr>
+    <form class="form-inline">
+      <label for="samagra">Samagra Id&nbsp;</label>
+      <input type="text" class="form-control" [(ngModel)]="phoneOrSamagra.samagraId" name="samagraId" id="samagra" maxlength="9">
+      <label for="phn">&nbsp;Or Phone &nbsp;</label>
+      <input type="text" class="form-control" [(ngModel)]="phoneOrSamagra.phoneNumber" name="phn" id="phn">
+      &nbsp;&nbsp;
+      <button type="submit" (click)='getDetailsByPhoneOrSamagra()' class="btn btn-primary">Search Member</button>
+    </form>
+    <div style="height: 10px;"></div>
+    <div *ngIf="error" class="alert alert-danger">
+        <strong>Error!</strong> Member with this Samagra Id / Phone not found.
+    </div>
+    <div *ngIf="personAndPropertyList.person!=null" class="card">
+        <div class="card-header">Member Details</div>
+        <div class="card-body">
+          <table class="table">
+            <tr>
+              <td><label>Samagra Id: {{personAndPropertyList.person.samagraId}}</label></td>
+              <td></td>
+              <td><label>Name: {{personAndPropertyList.person.name}}</label></td>
+              <td></td>
+              <td><label>Phone: {{personAndPropertyList.person.phone}}</label></td>
+            </tr>
+          </table>
+                                  
+            <div id="accordion">
+                <div class="card" *ngFor="let property of personAndPropertyList.propertyList;index as i">
+                  <div class="card-header">
+                    <a class="card-link" data-toggle="collapse" [href]="'#collapse'+i">
+                       # {{i+1}} - {{property.propertyNumber}}, {{property.area}}
+                    </a>
+                  </div>
+                  <div [id]="'collapse'+i" class="collapse show" data-parent="#accordion">
+                    <div class="card-body">
+                      <table>
+                        <tr>
+                          <td><label>City: {{property.city}}</label></td>
+                          <td style="width: 30px"></td>
+                          <td><label>Pincode: {{property.pincode}}</label></td>
+                          <td style="width: 30px"></td>
+                          <td><button (click)="openTaxDetails(property.propertyId)" class="btn btn-primary">View tax details</button></td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div> 
+                </div>
+              </div>
+        </div> 
+      </div>
+      <div style="height: 600px;"></div>
+</div>
+<app-footer></app-footer>

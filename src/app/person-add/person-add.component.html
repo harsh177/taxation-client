@@ -1,0 +1,44 @@
+<div class="container">
+<h4>Add Member</h4>
+<form>
+  <div class="form-group">
+    <label for="pname">Name:</label>
+    <input type="text" class="form-control" [(ngModel)]="person.name" id="pname" name="name" maxlength="50">
+  </div>
+  <div class="form-group">
+    <label for="pphone">Mobile:</label>
+    <input type="text" class="form-control" id="pphone" [(ngModel)]="person.phone" name="phone" maxlength="10">
+  </div>
+  <div class="form-group">
+    <label for="psamagraid">Samagra ID:</label>
+    <input type="text" class="form-control" id="psamagraid" [(ngModel)]="person.samagraId" name="samagraId" maxlength="9">
+  </div>
+  <div class="form-group">
+    <label>Gender:&nbsp;</label>
+    <div class="form-check-inline">
+      <label class="form-check-label">
+        <input type="radio" class="form-check-input" name="gender" [(ngModel)]="person.gender" value="MALE" checked>Male
+      </label>
+    </div>
+    <div class="form-check-inline">
+      <label class="form-check-label">
+        <input type="radio" class="form-check-input" [(ngModel)]="person.gender" value="FEMALE" name="gender">Female
+      </label>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="pfather">Father:</label>
+    <input type="text" class="form-control" id="pfather" name="father" [(ngModel)]="person.father" maxlength="50">
+  </div>
+  <h5 align="center">Or</h5>
+  <div class="form-group">
+    <label for="phusband">Husband:</label>
+    <input type="text" class="form-control" id="phusband" name="husband" [(ngModel)]="person.husband" maxlength="50">
+  </div>
+  <div class="form-group">
+    <label for="pcaste">Caste:</label>
+    <input type="text" class="form-control" id="pcaste" name="caste" [(ngModel)]="person.caste" maxlength="50">
+  </div>
+  <button type="submit" (click)="savePerson()" class="btn btn-primary">Save</button>
+</form>
+</div>
