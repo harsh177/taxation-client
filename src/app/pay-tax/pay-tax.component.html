@@ -16,7 +16,7 @@
     <div *ngIf="error" class="alert alert-danger">
         <strong>Error!</strong> Member with this Samagra Id / Phone not found.
     </div>
-    <div *ngIf="personAndPropertyList.person!=null" class="card">
+    <div *ngIf="personAndPropertyList.person!=null && personAndPropertyList.person.name!=undefined" class="card">
         <div class="card-header">Member Details</div>
         <div class="card-body">
           <table class="table">

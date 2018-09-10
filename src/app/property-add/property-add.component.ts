@@ -3,6 +3,7 @@ import { PropertyService } from '../property/proprty.service';
 import { IPropertyUsage } from '../property/property-usage-interface';
 import { IPropertyType } from '../property/property-type-interface';
 import { ToastrService } from '../../../node_modules/ngx-toastr';
+import { Router } from '../../../node_modules/@angular/router';
 
 @Component({
   selector: 'app-property-add',
@@ -50,7 +51,7 @@ export class PropertyAddComponent implements OnInit {
   };
   error=false;
 
-  constructor(private propertyService:PropertyService,private toastr: ToastrService) { }
+  constructor(private propertyService:PropertyService,private toastr: ToastrService,private router:Router) { }
 
   ngOnInit() {
     this.propertyService.getAllPropertyUsage().subscribe(data=>{
@@ -89,6 +90,7 @@ export class PropertyAddComponent implements OnInit {
       console.log(data);
       this.toastr.success('Property added successfully','Success');
       this.resetData();
+      this.router.navigate(['/home']);
     },error=>{
       this.toastr.error('Make sure all details are correct, try agan','Error');
       console.log(error);

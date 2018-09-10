@@ -12,7 +12,7 @@
       <strong>Error!</strong> Member with this Samagra Id / Phone not found.
   </div>
   <hr>
-  <form *ngIf="personAndPropertyList.person!=null">
+  <form *ngIf="personAndPropertyList.person!=null && personAndPropertyList.person.name!=undefined">
     <div class="form-group">
       <label for="pnumber">Property Number:</label>
       <input type="text" class="form-control" id="pnumber" [(ngModel)]="property.propertyNumber" name="Number" maxlength="50">
