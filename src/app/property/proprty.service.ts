@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {Http, Headers, RequestOptions} from '@angular/http';
 import { Observable,throwError as observableThrowError, } from '../../../node_modules/rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { IProperty } from './property-interface';
@@ -27,7 +28,11 @@ export class PropertyService {
 
   
   getPropertyByPhoneOrSamagra(phoneOrSamagra):Observable<ApplicationResponse>{
-    return this.http.post<ApplicationResponse>(this._url_get_property_phone_or_samagra,phoneOrSamagra).pipe(tap(data=>data),catchError(this.errorHandler));
+    const headers = new HttpHeaders().set('EJB', 'slkdfj');
+        // headers.set('Content-Type', 'application/json');
+        // headers.set('authentication', `hello`);
+ 
+    return this.http.post<ApplicationResponse>(this._url_get_property_phone_or_samagra,phoneOrSamagra,{headers:headers}).pipe(tap(data=>data),catchError(this.errorHandler));
   }
 
   getProperties():Observable<IProperty[]>{

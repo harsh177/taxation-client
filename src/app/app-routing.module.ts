@@ -9,21 +9,21 @@ import { PropertyComponent } from './property/property.component';
 import { PropertyAddComponent } from './property-add/property-add.component';
 import { PayTaxComponent } from './pay-tax/pay-tax.component';
 import { TaxDetailsComponent } from './tax-details/tax-details.component';
+import { AuthGuardService } from './guard/auth-guard';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', component: HomeComponent ,canActivate:[AuthGuardService]},
   { path: 'login', component: LoginComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'member',component:PersonComponent,
+  { path: 'member',component:PersonComponent , canActivateChild:[AuthGuardService],
     children:[{path:'add',component:PersonAddComponent}]
   },
-  { path: 'property',component:PropertyComponent,
+  { path: 'property',component:PropertyComponent, canActivateChild:[AuthGuardService],
     children:[{path:'add',component:PropertyAddComponent}]
   },
-  { path: 'paytax', component: PayTaxComponent },
-  { path: 'taxdetails/:id', component: TaxDetailsComponent },  
-  { path: '**', component: PageNotFoundComponent }
+  { path: 'paytax', component: PayTaxComponent , canActivate:[AuthGuardService]},
+  { path: 'taxdetails/:id', component: TaxDetailsComponent,canActivate:[AuthGuardService] },  
+  { path: '**', redirectTo: '' }
 ];
 
  

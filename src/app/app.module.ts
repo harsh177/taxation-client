@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
-import { FormsModule} from '@angular/forms';
-import { HttpClientModule} from '@angular/common/http'
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -18,6 +18,8 @@ import { PayTaxComponent } from './pay-tax/pay-tax.component';
 import { TaxDetailsComponent } from './tax-details/tax-details.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { AuthGuardService } from './guard/auth-guard';
+import { JwtInterceptor } from './helper/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -41,9 +43,12 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule
   ],
-  providers: [ToastrService],
+  providers: [ToastrService,AuthGuardService,{
+    provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true 
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
