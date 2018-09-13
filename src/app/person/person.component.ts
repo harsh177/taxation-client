@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, ParamMap } from '../../../node_modules/@angular/router';
 
 @Component({
   selector: 'app-person',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PersonComponent implements OnInit {
 
-  constructor() { }
+  action = "";
+  
+  constructor(private route:ActivatedRoute,private router:Router) { }
 
   ngOnInit() {
+    this.route.paramMap.subscribe((param:ParamMap)=>{
+      this.action = param.get('action');  
+      console.log(this.action);
+    })
   }
 
 }

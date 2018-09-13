@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IPerson } from '../person/person-interface';
 import { PersonService } from '../person/person.service';
 import { ToastrService } from '../../../node_modules/ngx-toastr';
+import { Router } from '../../../node_modules/@angular/router';
 @Component({
   selector: 'app-person-add',
   templateUrl: './person-add.component.html',
@@ -18,7 +19,7 @@ export class PersonAddComponent implements OnInit {
     caste:""
   };
 
-  constructor(private personService:PersonService,private toastr: ToastrService) { }
+  constructor(private personService:PersonService,private toastr: ToastrService,private router:Router) { }
 
   ngOnInit() {
   }
@@ -29,6 +30,7 @@ export class PersonAddComponent implements OnInit {
       console.log(data);
       this.toastr.success('Member added successfully','Success');
       this.resetData();
+      this.router.navigate(['/home']);
     },error=>{
       this.toastr.error('Make sure all details are correct, try agan','Error');
       console.log(error);

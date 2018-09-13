@@ -15,7 +15,11 @@
   <form *ngIf="personAndPropertyList.person!=null && personAndPropertyList.person.name!=undefined">
     <div class="form-group">
       <label for="pnumber">Property Number:</label>
-      <input type="text" class="form-control" id="pnumber" [(ngModel)]="property.propertyNumber" name="Number" maxlength="50">
+      <input type="text" class="form-control" id="pnumber" [(ngModel)]="property.propertyNumber" name="number" maxlength="50">
+    </div>
+    <div class="form-group">
+      <label for="pnumber">Property Subholder:</label>
+      <input type="text" class="form-control" id="psubholder" [(ngModel)]="property.subHolder" name="psubholder" maxlength="50">
     </div>
     <div class="form-group">
       <label for="parea">Area:</label>

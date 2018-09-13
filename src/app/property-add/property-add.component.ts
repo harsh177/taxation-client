@@ -17,6 +17,7 @@ export class PropertyAddComponent implements OnInit {
   property={
     propertyId:"",
     propertyNumber:"",
+    subHolder:"",
     area:"",
     city:"",
     pincode:"",
@@ -112,6 +113,7 @@ export class PropertyAddComponent implements OnInit {
     this.property={
       propertyId:"",
       propertyNumber:"",
+      subHolder:"",
       area:"",
       city:"",
       pincode:"",

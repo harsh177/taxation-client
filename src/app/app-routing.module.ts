@@ -15,12 +15,8 @@ import { AuthGuardService } from './guard/auth-guard';
 const routes: Routes = [
   { path: '', component: HomeComponent ,canActivate:[AuthGuardService]},
   { path: 'login', component: LoginComponent },
-  { path: 'member',component:PersonComponent , canActivateChild:[AuthGuardService],
-    children:[{path:'add',component:PersonAddComponent}]
-  },
-  { path: 'property',component:PropertyComponent, canActivateChild:[AuthGuardService],
-    children:[{path:'add',component:PropertyAddComponent}]
-  },
+  { path: 'member/:action',component:PersonComponent , canActivate:[AuthGuardService]},
+  { path: 'property/:action',component:PropertyComponent, canActivate:[AuthGuardService]},
   { path: 'paytax', component: PayTaxComponent , canActivate:[AuthGuardService]},
   { path: 'taxdetails/:id', component: TaxDetailsComponent,canActivate:[AuthGuardService] },  
   { path: '**', redirectTo: '' }
