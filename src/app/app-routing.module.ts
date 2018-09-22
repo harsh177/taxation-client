@@ -10,21 +10,25 @@ import { PropertyAddComponent } from './property-add/property-add.component';
 import { PayTaxComponent } from './pay-tax/pay-tax.component';
 import { TaxDetailsComponent } from './tax-details/tax-details.component';
 import { AuthGuardService } from './guard/auth-guard';
+import { PrintComponent } from './print/print.component';
 
 
 const routes: Routes = [
   { path: '', component: HomeComponent ,canActivate:[AuthGuardService]},
   { path: 'login', component: LoginComponent },
-  { path: 'member/:action',component:PersonComponent , canActivate:[AuthGuardService]},
-  { path: 'property/:action',component:PropertyComponent, canActivate:[AuthGuardService]},
+  { path: 'member',component:PersonComponent , canActivate:[AuthGuardService]},
+  { path: 'member/add/:action',component:PersonAddComponent , canActivate:[AuthGuardService]},
+  { path: 'property',component:PropertyComponent, canActivate:[AuthGuardService]},
+  { path: 'property/add/:action',component:PropertyAddComponent, canActivate:[AuthGuardService]},
   { path: 'paytax', component: PayTaxComponent , canActivate:[AuthGuardService]},
   { path: 'taxdetails/:id', component: TaxDetailsComponent,canActivate:[AuthGuardService] },  
+  { path: 'print/:id', component: PrintComponent,canActivate:[AuthGuardService] },  
   { path: '**', redirectTo: '' }
 ];
 
  
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,{useHash:true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

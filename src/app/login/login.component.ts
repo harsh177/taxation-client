@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '../../../node_modules/@angul
 import { ActivatedRoute, Router } from '../../../node_modules/@angular/router';
 import { AuthService } from '../auth.service';
 import { first } from '../../../node_modules/rxjs/operators';
+import { Logo } from '../logo';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +17,8 @@ export class LoginComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   error = '';
+
+    panchayat_logo = Logo.panchayat;
 
   constructor(
       private formBuilder: FormBuilder,

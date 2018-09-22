@@ -49,6 +49,10 @@ export class TaxDetailsComponent implements OnInit {
     });
   }
 
+  viewReciept(taxDetailsId){
+    this.router.navigate(['/print',taxDetailsId]);
+  }
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';

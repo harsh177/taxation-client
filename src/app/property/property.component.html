@@ -1,4 +1,75 @@
 <app-header></app-header>
-<app-property-add></app-property-add>
-<div style="height: 800px;"></div>
+
+<div  class="container" style="min-height: 550px">
+        <div class="row">
+            <form class="form-inline" role="form">
+                    <label class="mb-2 mr-sm-2">Search By:</label>
+                    <div class="form-check  mb-2 mr-sm-2">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="optradio"  [(ngModel)]="searchBy" value="SAMAGRA" checked>Samagra Id
+                            </label>
+                    </div>
+                    <div class="form-check  mb-2 mr-sm-2">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="optradio" [(ngModel)]="searchBy" value="PHONE">Phone
+                            </label>
+                    </div>
+                    <div class="form-check  mb-2 mr-sm-2">
+                      <label class="form-check-label">
+                        <input type="radio" class="form-check-input" name="optradio" [(ngModel)]="searchBy" value="UNIQUE">Unique Id
+                      </label>
+                    </div>
+                  <input type="text" class="form-control mb-2 mr-sm-2"  name="searchValue" [(ngModel)]="searchValue" placeholder="Search">
+                  <button type="button" class="btn btn-primary mb-2" (click)="getDetailsByPhoneOrSamagraOrUniqueId()">Search Property</button>
+                  <button type="button" class="btn btn-primary mb-2" style="margin-left: 300px;" (click)="navigateToAddProperty()">Add Property</button>
+            </form>
+        
+            <div *ngIf="properties.length==0" class="card bg-light text-dark text-center" style="margin-top: 10px; width: 100%;">
+              <div class="card-body">
+                <h3><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> No Property(s) found/present</h3>
+              </div>
+            </div>
+            <div  style="width: 100%;" *ngIf="properties.length>0">
+                <hr>
+                <input type="text" class="form-control"  placeholder="Search" name="filter" style="width: 30%" [(ngModel)]="filter">
+            </div>
+            <table *ngIf="properties.length>0" class="table table-hover" style="margin-top: 10px">
+                <thead>
+                  <tr>
+                    <th>Property Number</th>
+                    <th>Subholder</th>
+                    <th>Area</th>
+                    <th>City</th>
+                    <th>Unique Id</th>
+                    <th>samagra Id</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let property of properties  | propertyfilter:filter | paginate: config">
+                    <td>{{property.propertyNumber}}</td>
+                    <td>{{property.subHolder}}</td>
+                    <td>{{property.area}}</td>
+                    <td>{{property.city}}</td>
+                    <td>{{property.customUniqueId}}</td>
+                    <td>{{property.samagraId}}</td>
+                    <td><a><i class="fa fa-edit"></i></a>&nbsp;<a><i class="fa fa-share"></i></a></td>
+                  </tr>
+                </tbody>
+              </table>
+            <div *ngIf="properties.length>0"  class="has-text-centered"  style="margin-left: 33%;">
+                <pagination-controls [id]="config.id"
+                                     [maxSize]="maxSize"
+                                     [directionLinks]="directionLinks"
+                                     [autoHide]="autoHide"
+                                     [responsive]="responsive"
+                                     [previousLabel]="labels.previousLabel"
+                                     [nextLabel]="labels.nextLabel"
+                                     [screenReaderPaginationLabel]="labels.screenReaderPaginationLabel"
+                                     [screenReaderPageLabel]="labels.screenReaderPageLabel"
+                                     [screenReaderCurrentLabel]="labels.screenReaderCurrentLabel"
+                                     (pageChange)="onPageChange($event)"></pagination-controls>
+            </div>
+        </div>
+    </div>        
 <app-footer></app-footer>

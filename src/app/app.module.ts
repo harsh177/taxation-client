@@ -17,9 +17,15 @@ import { FooterComponent } from './footer/footer.component';
 import { PayTaxComponent } from './pay-tax/pay-tax.component';
 import { TaxDetailsComponent } from './tax-details/tax-details.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { AuthGuardService } from './guard/auth-guard';
 import { JwtInterceptor } from './helper/jwt.interceptor';
+import { PrintComponent } from './print/print.component';
+import { NgxPaginationModule } from '../../node_modules/ngx-pagination/dist/ngx-pagination';
+import { StringFilterPipe } from './helper/string.filter';
+import { MemberFilterPipe } from './helper/member.filter';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { PropertyFilterPipe } from './helper/property.filter';
 
 @NgModule({
   declarations: [
@@ -34,7 +40,11 @@ import { JwtInterceptor } from './helper/jwt.interceptor';
     PropertyAddComponent,
     FooterComponent,
     PayTaxComponent,
-    TaxDetailsComponent
+    TaxDetailsComponent,
+    PrintComponent,
+    StringFilterPipe,
+    MemberFilterPipe,
+    PropertyFilterPipe
   ],
   imports: [
     BrowserModule,
@@ -44,7 +54,9 @@ import { JwtInterceptor } from './helper/jwt.interceptor';
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxPaginationModule,
+    NgxSpinnerModule
   ],
   providers: [ToastrService,AuthGuardService,{
     provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true 

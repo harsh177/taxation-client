@@ -1,44 +1,87 @@
+<app-header></app-header>
+
 <div class="container">
 <h4>Add Member</h4>
-<form>
-  <div class="form-group">
+<form [formGroup]="personForm" (ngSubmit)="onSubmit()">
+
+  <div class="form-row mt-4">
+  <div class="col-sm-6 pb-3">
     <label for="pname">Name:</label>
-    <input type="text" class="form-control" [(ngModel)]="person.name" id="pname" name="name" maxlength="50">
+    <input type="text" placeholder="Enter member name" class="form-control" formControlName="name">
+    <p style="color: #721c24;" *ngIf="personForm.controls['name'].hasError('required')">
+      Please enter a name
+    </p>
+    <p style="color: #721c24;" *ngIf="personForm.controls['name'].hasError('minlength')">
+        Please enter at least 2 characters
+    </p>
+    <p style="color: #721c24;" *ngIf="personForm.controls['name'].hasError('maxlength')">
+        Name can not exceed 50 characters
+    </p>
   </div>
-  <div class="form-group">
+  <div class="col-sm-6 pb-3">
     <label for="pphone">Mobile:</label>
-    <input type="text" class="form-control" id="pphone" [(ngModel)]="person.phone" name="phone" maxlength="10">
+    <input type="text" class="form-control" placeholder="Enter phone number" formControlName="phone">
+    <p style="color: #721c24;" *ngIf="personForm.controls['phone'].hasError('required')">
+        Please enter a phone
+    </p>
+    <p style="color: #721c24;" *ngIf="personForm.controls['phone'].hasError('pattern')">
+          Phone number should have 10 digits
+    </p>  
   </div>
-  <div class="form-group">
+
+  <div class="form-group" class="col-sm-6 pb-3">
     <label for="psamagraid">Samagra ID:</label>
-    <input type="text" class="form-control" id="psamagraid" [(ngModel)]="person.samagraId" name="samagraId" maxlength="8">
+    <input type="text" class="form-control" placeholder="Enter samagraId" formControlName="samagraId">
+    <p style="color: #721c24;" *ngIf="personForm.controls['samagraId'].hasError('required')">
+        Please enter a samagraId
+    </p>
+    <p style="color: #721c24;" *ngIf="personForm.controls['samagraId'].hasError('pattern')">
+          Samagra ID should have 8 digits
+    </p>  
   </div>
-  <div class="form-group">
-    <label>Gender:&nbsp;</label>
+  <div class="form-group" class="col-sm-6 pb-3">
+    <label>Select Gender:</label><br>
     <div class="form-check-inline">
       <label class="form-check-label">
-        <input type="radio" class="form-check-input" name="gender" [(ngModel)]="person.gender" value="MALE" checked>Male
+        <input type="radio" class="form-check-input" formControlName="gender" value="MALE" checked>Male
       </label>
     </div>
     <div class="form-check-inline">
       <label class="form-check-label">
-        <input type="radio" class="form-check-input" [(ngModel)]="person.gender" value="FEMALE" name="gender">Female
+        <input type="radio" class="form-check-input" formControlName="gender" value="FEMALE">Female
       </label>
     </div>
   </div>
-  <div class="form-group">
+
+  <div class="form-group" class="col-sm-6 pb-3">
     <label for="pfather">Father:</label>
-    <input type="text" class="form-control" id="pfather" name="father" [(ngModel)]="person.father" maxlength="50">
+    <input type="text" class="form-control" placeholder="Enter father's name" formControlName="father">
+    <p style="color: #721c24;" *ngIf="personForm.controls['father'].hasError('maxlength')">
+        Father's name can not exceed 50 characters
+    </p>  
   </div>
-  <h5 align="center">Or</h5>
-  <div class="form-group">
+  <div class="form-group" class="col-sm-6 pb-3">
     <label for="phusband">Husband:</label>
-    <input type="text" class="form-control" id="phusband" name="husband" [(ngModel)]="person.husband" maxlength="50">
+    <input type="text" class="form-control" placeholder="Enter husband's name" formControlName="husband">
+    <p style="color: #721c24;" *ngIf="personForm.controls['caste'].hasError('maxlength')">
+        Husband's name can not exceed 50 characters
+    </p>  
   </div>
-  <div class="form-group">
+  <div class="form-group" class="col-sm-6 pb-3">
     <label for="pcaste">Caste:</label>
-    <input type="text" class="form-control" id="pcaste" name="caste" [(ngModel)]="person.caste" maxlength="50">
+    <input type="text" class="form-control" placeholder="Enter caste" formControlName="caste">
+    <p style="color: #721c24;" *ngIf="personForm.controls['caste'].hasError('required')">
+        Please enter a caste
+    </p>
+      <p style="color: #721c24;" *ngIf="personForm.controls['caste'].hasError('minlength')">
+          Please enter at least 2 characters
+      </p>
+      <p style="color: #721c24;" *ngIf="personForm.controls['caste'].hasError('maxlength')">
+          Caste can not exceed 50 characters
+      </p>  
   </div>
-  <button type="submit" (click)="savePerson()" class="btn btn-primary">Save</button>
+</div>
+  <button type="submit" [disabled]="!personForm.valid" class="btn btn-primary">Save</button>
 </form>
 </div>
+<app-footer></app-footer>

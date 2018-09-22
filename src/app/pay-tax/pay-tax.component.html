@@ -13,7 +13,7 @@
       <button type="submit" (click)='getDetailsByPhoneOrSamagra()' class="btn btn-primary">Search Member</button>
     </form>
     <div style="height: 10px;"></div>
-    <div *ngIf="error" class="alert alert-danger">
+    <div style="margin-top: 10px" *ngIf="personAndPropertyList.person==null" class="alert alert-danger">
         <strong>Error!</strong> Member with this Samagra Id / Phone not found.
     </div>
     <div *ngIf="personAndPropertyList.person!=null && personAndPropertyList.person.name!=undefined" class="card">
@@ -36,7 +36,7 @@
                        # {{i+1}} - {{property.propertyNumber}}, {{property.area}}
                     </a>
                   </div>
-                  <div [id]="'collapse'+i" class="collapse show" data-parent="#accordion">
+                  <div [id]="'collapse'+i" class="collapse" data-parent="#accordion">
                     <div class="card-body">
                       <table>
                         <tr>

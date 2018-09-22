@@ -11,6 +11,7 @@ import { ApplicationResponse } from '../application-response';
 export class TaxDetailsService {
   private _url_base:string = Common.base_url;
   private _url_get_tax_details_by_property_id:string = this._url_base+"/taxDetails/";
+  private _url_get_tax_details_by_tax_detail_id:string = this._url_base+"/taxDetails/";
   private _url_tax_pay:string = this._url_base+"/property/payTax";
 
   constructor(private http:HttpClient) { }
@@ -23,7 +24,9 @@ export class TaxDetailsService {
     return this.http.get<ApplicationResponse>(this._url_get_tax_details_by_property_id+propertyId+'/getAll').pipe(tap(data => data) , catchError(this.errorHandler));
   }
 
-  
+  getTaxDetailsByTaxDetailId(taxDetailId):Observable<ApplicationResponse>{
+    return this.http.get<ApplicationResponse>(this._url_get_tax_details_by_tax_detail_id+taxDetailId).pipe(tap(data => data) , catchError(this.errorHandler));
+  }
 
   errorHandler(error: HttpErrorResponse){
     return observableThrowError(error.message || "Server Error");

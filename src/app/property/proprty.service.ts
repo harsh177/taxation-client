@@ -13,26 +13,30 @@ import { ApplicationResponse } from '../application-response';
   providedIn: 'root'
 })
 export class PropertyService {
+  
   private _url_base:string = Common.base_url;
   private _url_getall_property:string = this._url_base+"/property/getAll";
   private _url_create_property:string = this._url_base+"/property/add";
+  private _url_upload_file:string = this._url_base+"/uploadMultipleFiles";
   private _url_getall_property_usage:string = this._url_base+"/seed/propertyUsage/getAll";
   private _url_getall_property_types:string = this._url_base+"/seed/propertyTypes/getAll";
   private _url_get_property_phone_or_samagra = this._url_base+"/property/getByPhoneOrSamagra";
+  private _url_get_property_phone_or_samagra_or_unique = this._url_base+"/property/getByPhoneOrSamagraOrUnique";
 
   constructor(private http:HttpClient) { }
 
   saveProperty(property):Observable<IProperty>{
-    return this.http.post<IProperty>(this._url_create_property,property).pipe(tap(data=>data),catchError(this.errorHandler));
+    let currentUser = <any>JSON.parse(localStorage.getItem('currentUser'));
+    return this.http.post<IProperty>(this._url_create_property+'/'+currentUser.panchayat.panchayatId+'/'+currentUser.uid,property).pipe(tap(data=>data),catchError(this.errorHandler));
   }
 
   
   getPropertyByPhoneOrSamagra(phoneOrSamagra):Observable<ApplicationResponse>{
-    const headers = new HttpHeaders().set('EJB', 'slkdfj');
-        // headers.set('Content-Type', 'application/json');
-        // headers.set('authentication', `hello`);
- 
-    return this.http.post<ApplicationResponse>(this._url_get_property_phone_or_samagra,phoneOrSamagra,{headers:headers}).pipe(tap(data=>data),catchError(this.errorHandler));
+    return this.http.post<ApplicationResponse>(this._url_get_property_phone_or_samagra,phoneOrSamagra).pipe(tap(data=>data),catchError(this.errorHandler));
+  }
+
+  getPropertyByPhoneOrSamagraOrUniqueId(phoneOrSamagraOrUniqueId):Observable<ApplicationResponse>{
+    return this.http.post<ApplicationResponse>(this._url_get_property_phone_or_samagra_or_unique,phoneOrSamagraOrUniqueId).pipe(tap(data=>data),catchError(this.errorHandler));
   }
 
   getProperties():Observable<IProperty[]>{
@@ -48,7 +52,21 @@ export class PropertyService {
     return this.http.get<ApplicationResponse>(this._url_getall_property_types).pipe(tap(data => data) , catchError(this.errorHandler));
   }
 
+  //file upload
+  postFile(fileToUpload: File[],uuid:string):Observable<any>{
+    const formData: FormData = new FormData();
+    for(var i=0;i<fileToUpload.length;i++){
+      formData.append('files', fileToUpload[i], this.generateFileName(fileToUpload[i].name,uuid,i));      
+    }
+    return this.http.post<any>(this._url_upload_file,formData).pipe(tap(data=>data),catchError(this.errorHandler));
+  }
+
+  generateFileName(name:string,uuid:string,index){
+    return name.split(".")[0]+"_"+uuid+"_"+index+"."+name.split(".")[1];;
+  }
+
   errorHandler(error: HttpErrorResponse){
     return observableThrowError(error.message || "Server Error");
   }
+
 }

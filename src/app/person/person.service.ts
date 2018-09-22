@@ -18,12 +18,12 @@ export class PersonService {
 
   constructor(private http:HttpClient) { }
 
-  savePerson(person):Observable<IPerson>{
-    return this.http.post<IPerson>(this._url_create_person,person).pipe(tap(data=>data),catchError(this.errorHandler));
+  savePerson(person):Observable<any>{
+    return this.http.post<any>(this._url_create_person,person).pipe(tap(data=>data),catchError(this.errorHandler));
   }
 
-  getPersons():Observable<IPerson[]>{
-    return this.http.get<IPerson[]>(this._url_getall_persons).pipe(tap(data => data) , catchError(this.errorHandler));
+  getPersons():Observable<any>{
+    return this.http.get<any>(this._url_getall_persons).pipe(tap(data => data) , catchError(this.errorHandler));
   }
 
   getPersonBySamagraId(samagra):Observable<ApplicationResponse>{

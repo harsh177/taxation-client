@@ -16,7 +16,7 @@ export class PayTaxComponent implements OnInit {
     samagraId:""
   }
   personAndPropertyList={
-    person:{},
+    person:<any>{},
     propertyList:[]
   };
 

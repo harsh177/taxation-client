@@ -1,0 +1,70 @@
+<app-header></app-header>
+<div class="container">
+<div class="card" id="printall" style="width: 60%">
+  <div class="card-header"><div style="
+  display: inline;
+"><img [src]="currentUser.panchayat.logo" style="width: 70px;padding-top: 1px;"></div>
+  <div style="display: inline-table;margin-left: 10%;" align="center">
+  <div><h3>Reciept</h3></div>
+<div><h5 style="
+  /* display: inline; */
+">{{currentUser.panchayat.name}} , {{currentUser.panchayat.district}}</h5><div></div></div></div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <label style="
+    margin-left: 35%;padding-bottom: 10px;
+">Tax Payment Summary</label>
+</div>
+  
+  <div class="row">
+      <div class="col">Date Of Payment : {{d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()}}</div>
+      <div class="col"><label style="float:right;">Property Id : {{taxDetail.property.propertyId}}</label></div>
+  </div>
+  <div class="row">
+  <table class="table">
+  <thead>
+    <tr>
+      <th>Month</th>
+      
+      <th><label style="float:right;">Amount</label></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{month}} {{year}}</td>
+      
+      <td><label style="float:right;">&#x20B9;  {{taxDetail.amount}}</label></td>
+    </tr>
+  </tbody>
+  <thead>
+    <tr>
+      <th>Total</th>
+      
+      <th><label style="float:right;">&#x20B9;  {{taxDetail.amount}}</label></th>
+    </tr>
+  </thead>
+</table>
+  </div>
+  <br>
+<div class="row">
+<div class="col"><label>Signature</label></div>
+<div class="col"><label style="float:right;">Satyapan</label></div>
+</div>
+<br>
+<div class="row">
+  <div class="col"><label>____________________</label></div>
+  <div class="col"><label style="float:right;">____________________</label></div>
+</div>
+    
+</div> 
+  <div class="card-footer">
+<img [src]="logo_spec" style="
+  height: 100px;
+">
+</div>
+</div>
+<br>
+<button (click)="download()"  class="btn  btn-primary">Download</button>
+</div>
+<app-footer></app-footer>

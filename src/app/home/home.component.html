@@ -5,19 +5,19 @@
 
         <!-- Page Heading -->
         <h1 class="my-4">Dashboard
-          <small>Quick links</small>
+          <small>{{currentUser.panchayat.name}}</small>
         </h1>
         
         <div class="row">
                 <div class="card-columns">
-                        <div class="card bg-light" (click)="navigateToAddMember()" style="cursor: pointer">
+                        <div class="card bg-light" (click)="navigateToMember()" style="cursor: pointer">
                           <div class="card-body">
-                            <p class="card-text"><i class="fa fa-address-card"></i> Add Samagra Member</p>
+                            <p class="card-text"><i class="fa fa-address-card"></i> Samagra Members</p>
                           </div>
                         </div>
                         <div class="card bg-light">
                           <div class="card-body">
-                            <p class="card-text" (click)="navigateToAddProperty()" style="cursor: pointer"><i class="fa fa-building"></i> Add Properties</p>
+                            <p class="card-text" (click)="navigateToProperties()" style="cursor: pointer"><i class="fa fa-building"></i> Properties</p>
                           </div>
                         </div>
                         <div class="card bg-light">
@@ -38,6 +38,30 @@
                  </div>
         </div>
         <!-- /.row -->
+        <!-- <div class="row">
+            <label class="control">Filter items
+                <input type="text" class="input" placeholder="filter" [(ngModel)]="filter">
+            </label>
+            <ul class="meal-list">
+                <li *ngFor="let meal of meals  | stringfilter:filter | paginate: config">
+                    {{ meal }}
+                </li>
+            </ul>
+            
+            <div class="has-text-centered">
+                <pagination-controls [id]="config.id"
+                                     [maxSize]="maxSize"
+                                     [directionLinks]="directionLinks"
+                                     [autoHide]="autoHide"
+                                     [responsive]="responsive"
+                                     [previousLabel]="labels.previousLabel"
+                                     [nextLabel]="labels.nextLabel"
+                                     [screenReaderPaginationLabel]="labels.screenReaderPaginationLabel"
+                                     [screenReaderPageLabel]="labels.screenReaderPageLabel"
+                                     [screenReaderCurrentLabel]="labels.screenReaderCurrentLabel"
+                                     (pageChange)="onPageChange($event)"></pagination-controls>
+            </div>
+        </div> -->
         <div class="row" style="padding-top: 31%"></div>
       </div>
 <app-footer></app-footer>
