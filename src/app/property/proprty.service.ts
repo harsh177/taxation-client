@@ -17,6 +17,8 @@ export class PropertyService {
   private _url_base:string = Common.base_url;
   private _url_getall_property:string = this._url_base+"/property/getAll";
   private _url_create_property:string = this._url_base+"/property/add";
+  private _url_update_property:string = this._url_base+"/property/update";
+  private _url_transfer_property:string = this._url_base+"/property/transfer";
   private _url_upload_file:string = this._url_base+"/uploadMultipleFiles";
   private _url_getall_property_usage:string = this._url_base+"/seed/propertyUsage/getAll";
   private _url_getall_property_types:string = this._url_base+"/seed/propertyTypes/getAll";
@@ -30,6 +32,9 @@ export class PropertyService {
     return this.http.post<IProperty>(this._url_create_property+'/'+currentUser.panchayat.panchayatId+'/'+currentUser.uid,property).pipe(tap(data=>data),catchError(this.errorHandler));
   }
 
+  updateProperty(property):Observable<IProperty>{
+    return this.http.post<IProperty>(this._url_update_property,property).pipe(tap(data=>data),catchError(this.errorHandler));
+  }
   
   getPropertyByPhoneOrSamagra(phoneOrSamagra):Observable<ApplicationResponse>{
     return this.http.post<ApplicationResponse>(this._url_get_property_phone_or_samagra,phoneOrSamagra).pipe(tap(data=>data),catchError(this.errorHandler));
@@ -61,12 +66,27 @@ export class PropertyService {
     return this.http.post<any>(this._url_upload_file,formData).pipe(tap(data=>data),catchError(this.errorHandler));
   }
 
+  transferProperty(transfer):Observable<any>{
+    let currentUser = <any>JSON.parse(localStorage.getItem('currentUser'));
+    return this.http.post<any>(this._url_transfer_property+'/'+currentUser.panchayat.panchayatId+'/'+currentUser.uid,transfer).pipe(tap(data=>data),catchError(this.errorHandler));
+  }
+
   generateFileName(name:string,uuid:string,index){
     return name.split(".")[0]+"_"+uuid+"_"+index+"."+name.split(".")[1];;
   }
 
   errorHandler(error: HttpErrorResponse){
-    return observableThrowError(error.message || "Server Error");
+    return observableThrowError(error.error || "Server Error");
+  }
+
+  propertyObj:any;
+
+  setPropertyObj(propertyObj:any){
+    this.propertyObj=propertyObj;
+  }
+
+  getPropertyObj():any{
+    return  this.propertyObj;
   }
 
 }

@@ -1,8 +1,7 @@
 <app-header></app-header>
 <!-- Page Content -->
 
-<div class="container">
-
+<div class="container"  style="min-height: 550px">
         <!-- Page Heading -->
         <h1 class="my-4">Dashboard
           <small>{{currentUser.panchayat.name}}</small>
@@ -24,12 +23,7 @@
                           <div class="card-body">
                             <p class="card-text" (click)="navigateToPayTax()" style="cursor: pointer"><i class="fa fa-money"></i> Pay Taxes</p>
                           </div>
-                        </div>
-                        <div class="card bg-light">
-                          <div class="card-body">
-                            <p class="card-text"><i class="fa fa-search"></i> Search Member (Comming soon)</p>
-                          </div>
-                        </div>  
+                        </div> 
                         <div class="card bg-light">
                           <div class="card-body">
                             <p class="card-text"><i class="fa fa-line-chart"></i> Tax Reports (Comming soon)</p>
@@ -37,31 +31,5 @@
                         </div>
                  </div>
         </div>
-        <!-- /.row -->
-        <!-- <div class="row">
-            <label class="control">Filter items
-                <input type="text" class="input" placeholder="filter" [(ngModel)]="filter">
-            </label>
-            <ul class="meal-list">
-                <li *ngFor="let meal of meals  | stringfilter:filter | paginate: config">
-                    {{ meal }}
-                </li>
-            </ul>
-            
-            <div class="has-text-centered">
-                <pagination-controls [id]="config.id"
-                                     [maxSize]="maxSize"
-                                     [directionLinks]="directionLinks"
-                                     [autoHide]="autoHide"
-                                     [responsive]="responsive"
-                                     [previousLabel]="labels.previousLabel"
-                                     [nextLabel]="labels.nextLabel"
-                                     [screenReaderPaginationLabel]="labels.screenReaderPaginationLabel"
-                                     [screenReaderPageLabel]="labels.screenReaderPageLabel"
-                                     [screenReaderCurrentLabel]="labels.screenReaderCurrentLabel"
-                                     (pageChange)="onPageChange($event)"></pagination-controls>
-            </div>
-        </div> -->
-        <div class="row" style="padding-top: 31%"></div>
       </div>
 <app-footer></app-footer>

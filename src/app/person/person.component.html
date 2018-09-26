@@ -22,7 +22,7 @@
             <th>Name</th>
             <th>Samagra</th>
             <th>Phone</th>
-            <th>Action</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -30,7 +30,7 @@
             <td>{{person.name}}</td>
             <td>{{person.samagraId}}</td>
             <td>{{person.phone}}</td>
-            <td><a><i class="fa fa-edit"></i></a>&nbsp;<a><i class="fa fa-trash"></i></a></td>
+            <td><a  style="cursor: pointer;"  (click)="edit(person.personId)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;<a  style="cursor: pointer;"  (click)="delete(person.personId)"><i class="fa fa-trash"></i></a></td>
           </tr>
         </tbody>
       </table>

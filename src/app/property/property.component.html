@@ -1,6 +1,12 @@
 <app-header></app-header>
-
+<ngx-spinner
+bdColor = "rgba(51, 51, 51, 0.8)"
+size = "default"
+color = "#fff"
+type = "ball-clip-rotate"
+></ngx-spinner>
 <div  class="container" style="min-height: 550px">
+
         <div class="row">
             <form class="form-inline" role="form">
                     <label class="mb-2 mr-sm-2">Search By:</label>
@@ -21,10 +27,10 @@
                     </div>
                   <input type="text" class="form-control mb-2 mr-sm-2"  name="searchValue" [(ngModel)]="searchValue" placeholder="Search">
                   <button type="button" class="btn btn-primary mb-2" (click)="getDetailsByPhoneOrSamagraOrUniqueId()">Search Property</button>
-                  <button type="button" class="btn btn-primary mb-2" style="margin-left: 300px;" (click)="navigateToAddProperty()">Add Property</button>
+                  <button type="button" class="btn btn-primary mb-2" style="margin-left: 200px;" (click)="navigateToAddProperty()">Add Property</button>
             </form>
         
-            <div *ngIf="properties.length==0" class="card bg-light text-dark text-center" style="margin-top: 10px; width: 100%;">
+            <div *ngIf="error" class="card bg-light text-dark text-center" style="margin-top: 10px; width: 100%;">
               <div class="card-body">
                 <h3><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> No Property(s) found/present</h3>
               </div>
@@ -42,7 +48,7 @@
                     <th>City</th>
                     <th>Unique Id</th>
                     <th>samagra Id</th>
-                    <th>Action</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -53,7 +59,108 @@
                     <td>{{property.city}}</td>
                     <td>{{property.customUniqueId}}</td>
                     <td>{{property.samagraId}}</td>
-                    <td><a><i class="fa fa-edit"></i></a>&nbsp;<a><i class="fa fa-share"></i></a></td>
+                    <td><a  style="cursor: pointer;" (click)="op(property.propertyId,property.propertyId)" data-toggle="modal" data-target="#{{property.propertyId}}"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;<a style="cursor: pointer;" (click)="edit(property)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;<a style="cursor: pointer;" (click)="delete(property.propertyId)"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;<a  style="cursor: pointer;" (click)="op('transfer'+property.propertyId,property.propertyId)" data-toggle="modal" data-target="#{{'transfer'+property.propertyId}}"><i class="fa fa-share"></i></a>&nbsp;&nbsp;<a  style="cursor: pointer;"  (click)="navigateToTaxDetails(property.propertyId)"><i class="fa fa-money"></i></a>
+                      <div class="modal fade" [id]="property.propertyId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Property Details</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                  <div class="row" style="margin-bottom:20px">
+                                      <div class="col"><b>Samagra Id </b>: {{property.samagraId}}</div>
+                                      <div class="col"><b>Unique Id </b>: {{property.customUniqueId}}</div>
+                                      <div class="col"><b>Subholder Name </b>: {{property.subHolder}}</div>
+                                    </div>
+                                    <div class="row" style="margin-bottom:20px">
+                                      <div class="col"><b>Prperty Number </b>: {{property.propertyNumber}}</div>
+                                      <div class="col"></div>
+                                      <div class="col"><b>Area </b>: {{property.area}}</div>
+                                    </div>
+                                    <div class="row" style="margin-bottom:20px">
+                                          <div class="col"><b>City </b>: {{property.city}}</div>
+                                          <div class="col"><b>Pincode </b>: {{property.pincode}}</div>
+                                          <div class="col"><b>Is water Connected </b>: {{property.waterConnected}}</div>
+                                    </div>
+                                      <div class="row" style="margin-bottom:20px">
+                                          <div class="col"><b>Is Residential </b>: {{property.isResidential}}</div>
+                                          <div class="col"><b>Resident Name </b>: {{property.residentName}}</div>
+                                          <div class="col"><b>East Landmark </b>: {{property.eastLandmark}}</div>
+                                    </div>
+                                    <div class="row" style="margin-bottom:20px">
+                                      <div class="col"><b>West Landmark </b>: {{property.westLandmark}}</div>
+                                      <div class="col"><b>North Landmark </b>: {{property.northLandmark}}</div>
+                                      <div class="col"><b>South Landmark </b>: {{property.southLandmark}}</div>
+                                    </div>
+                                    <div class="row" style="margin-bottom:20px">
+                                      <div class="col"><b>Water Bill Description </b>: {{property.waterBillDescription}}</div>
+                                      <div class="col"><b>Shared Wall Description </b>: {{property.sharedWallDescription}}</div>
+                                      <div class="col"><b>Other Description </b>: {{property.otherDescription}}</div>
+                                    </div>
+                                    <div  class="row">
+                                      <div  class="col"><b>Property Types</b> :<br>
+                                        <p *ngFor="let pt  of  property.propertyTypes">{{pt.name}}</p>
+                                      </div>
+                                      <div  class="col"><b>Property Usages</b> :<br>
+                                        <p *ngFor="let pv  of  property.propertyUsages">{{pv.name}}</p>
+                                      </div>
+                                      <div  class="col"></div>
+                                        
+                                    </div>
+                                    <div class="row" style="margin-bottom:20px">
+                                      <div class="col"><b>Download Documents </b>: <br>
+                                      <a *ngFor="let  document  of  property.documents"  href="{{document.downloadUri}}">{{document.name}}</a><br>
+                                      </div>
+                                    </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal fade" id="{{'transfer'+property.propertyId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Transfer Property</h5>
+                                  <button type="button" class="close"  (click)="cancel()" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div  class="row">
+                                        <div  class="col">  <label>Transfer to:</label></div>
+                                        <div  class="col">  <input type="text"  name="transferToSamagraId" [(ngModel)]="transferObj.transferToSamagraId" placeholder="Samagra Id" class="form-control">
+                                          <p  class="text-danger" *ngIf="validateSamagraError">Invalid Samagra Id</p>
+                                        </div>
+                                        <div  class="col">  <button (click)="validateSamagra()" class="btn btn-primary">Validate</button></div>    
+                                    </div>
+                                    <div *ngIf="transferFormVisiblity" class="row" style="margin-top: 10px">
+                                      <div  class="col">Subholder Name</div>
+                                      <div  class="col"><input type="text" name="newSubHolder" [(ngModel)]="transferObj.newSubHolder" placeholder="Enter sub holder name" class="form-control"></div>
+                                    </div>
+                                    <div  *ngIf="transferFormVisiblity" class="row" style="margin-top: 10px">
+                                        <div  class="col">Resident Name</div>
+                                        <div  class="col"><input type="text"   name="residentName" [(ngModel)]="transferObj.residentName" placeholder="Enter  resident name" class="form-control"></div>
+                                    </div>
+                                    <div *ngIf="transferFormVisiblity" class="row" style="margin-top: 10px">
+                                          <div  class="col"><input type="file" (change)="fileEvent($event.target.files)" multiple></div>
+                                          <div  class="col"><button class="btn btn-primary" (click)="uploadFile()">Upload</button></div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" (click)="cancel()" data-dismiss="modal">Close</button>
+                                  <button type="button" class="btn btn-primary" [disabled]="!transferFormVisiblity" (click)="transferProperty()">Transfer</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                    </td>
+                   
                   </tr>
                 </tbody>
               </table>

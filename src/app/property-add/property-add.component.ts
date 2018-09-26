@@ -3,7 +3,7 @@ import { PropertyService } from '../property/proprty.service';
 import { IPropertyUsage } from '../property/property-usage-interface';
 import { IPropertyType } from '../property/property-type-interface';
 import { ToastrService } from '../../../node_modules/ngx-toastr';
-import { Router } from '../../../node_modules/@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '../../../node_modules/@angular/router';
 import { FormGroup, FormBuilder, Validators } from '../../../node_modules/@angular/forms';
 
 @Component({
@@ -66,32 +66,37 @@ export class PropertyAddComponent implements OnInit {
   
   uuid:string;
 
-  constructor(private _formBuilder:FormBuilder,private propertyService:PropertyService,private toastr: ToastrService,private router:Router) { }
+  action;
+  propertyObj:any;
+
+  constructor(private route:ActivatedRoute,private _formBuilder:FormBuilder,private propertyService:PropertyService,private toastr: ToastrService,private router:Router) { }
 
   ngOnInit() {
 
+    this.route.paramMap.subscribe((param:ParamMap)=>{
+      this.action = param.get('action'); 
+      if(this.action=='false') {
+        this.propertyObj  = this.propertyService.getPropertyObj();
+        if(this.propertyObj==undefined){
+          this.router.navigate(['/property']);    
+        }
+        
+      }
+      this.fetchPreDetails();
+
+      console.log(this.action);
+    });
+
     this.uuid = this.generateUUID();
 
-    this.propertyService.getAllPropertyUsage().subscribe(data=>{
-      console.log(data);
-      this.propertyUsages = <any[]>data.data;
-      this.propertyUsages.forEach(obj=> {
-        obj.checked = false;
-     })
-    },error=>{
-      console.log(error);
-    });
-    this.propertyService.getAllPropertyType().subscribe(data=>{
-      this.propertyTypes = <any[]>data.data;
-      this.propertyTypes.forEach(obj=> {
-        obj.checked = false;
-     })
-
-    },error=>{
-      console.log(error);
-    });
-
     this.propertyForm = this._formBuilder.group({
+      propertyId:[""],
+      samagraId:[""],
+      customUniqueId:[""],
+      propertyTypes:[[]],
+      propertyUsages:[[]],
+      documents:[[]],
+      active:[true],
       propertyNumber:["",[Validators.required,Validators.minLength(2),Validators.maxLength(50)]],
       subHolder:["",[Validators.required,Validators.minLength(2),Validators.maxLength(50)]],
       area:["",[Validators.required,Validators.minLength(2),Validators.maxLength(50)]],
@@ -110,6 +115,62 @@ export class PropertyAddComponent implements OnInit {
       waterBillDescription:["",[Validators.maxLength(200)]],
       otherDescription:["",[Validators.maxLength(200)]]
     });
+
+    if(this.propertyObj.isResidential==true)
+    this.propertyObj.residential="YES";
+    else  this.propertyObj.residential="NO";
+    delete this.propertyObj.isResidential;
+    if(this.propertyObj.isWaterConnected==true)
+    this.propertyObj.waterConnected="YES";
+    else  this.propertyObj.waterConnected="NO";
+    delete this.propertyObj.isWaterConnected;
+
+    this.propertyForm.setValue(this.propertyObj);
+  }
+
+  fetchPreDetails(){
+    this.propertyService.getAllPropertyUsage().subscribe(data=>{
+      console.log(data);
+      this.propertyUsages = <any[]>data.data;
+      this.propertyUsages.forEach(obj=> {
+        
+        if(this.action=='false' &&  this.propertyObj!=undefined){
+        this.propertyObj.propertyUsages.forEach(obj1=> {
+          if(obj.propertyUsageId==obj1.propertyUsageId)
+            obj.checked = true;
+         })
+         
+        }else obj.checked = false;
+     })
+
+     if(this.action=='false')delete this.propertyObj.propertyUsages;
+    },error=>{
+      console.log(error);
+    });
+    this.propertyService.getAllPropertyType().subscribe(data=>{
+      this.propertyTypes = <any[]>data.data;
+      this.propertyTypes.forEach(obj=> {
+        if(this.action=='false' &&  this.propertyObj!=undefined){
+        this.propertyObj.propertyTypes.forEach(obj1=> {
+          if(obj.propertyTypeId==obj1.propertyTypeId)
+            obj.checked = true;
+         })
+         
+        }else obj.checked = false;
+      })
+
+      if(this.action=='false')delete this.propertyObj.propertyTypes;
+
+    },error=>{
+      console.log(error);
+    });
+
+  }
+
+  documentDelete(documentId){
+    this.propertyObj.documents  = this.propertyObj.documents.filter(obj=>{
+      return  obj.documentId!=documentId;
+    })
   }
 
   saveProperty(samagraId){
@@ -127,13 +188,21 @@ export class PropertyAddComponent implements OnInit {
     delete this.property.residential;
     delete this.property.waterConnected;
 
-    this.property.documents = this.documents;
-    this.property.customUniqueId = this.uuid;
+    if(this.action=='false'){
+      this.property.documents = this.documents;
+      
+      this.propertyObj.documents.forEach(obj=>{
+        this.property.documents.push(obj);
+      })
+      this.property.samagraId = this.propertyObj.samagraId;
+      this.property.customUniqueId = this.propertyObj.customUniqueId;
+    }
 
     console.log(this.property);
 
     if(!this.isCheckboxesSelected())return;
 
+    if(this.action=='true'){
     this.propertyService.saveProperty(this.property).subscribe(data=>{
       console.log(data);
       this.toastr.success('Property added successfully','Success');
@@ -143,7 +212,20 @@ export class PropertyAddComponent implements OnInit {
       this.toastr.error('Make sure all details are correct, try again','Error');
       console.log(error);
     });
+  }
   
+    if(this.action=='false'){
+    this.propertyService.updateProperty(this.property).subscribe(data=>{
+      console.log(data);
+      this.toastr.success('Property added successfully','Success');
+      this.resetData();
+      this.router.navigate(['/property']);
+    },error=>{
+      this.toastr.error('Make sure all details are correct, try again','Error');
+      console.log(error);
+    });
+  }
+
   }
 
   getDetailsByPhoneOrSamagra(){

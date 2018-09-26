@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, ParamMap } from '../../../node_modules/@angular/router';
 import { PersonService } from './person.service';
 import {PaginationInstance} from '../../../node_modules/ngx-pagination/dist/ngx-pagination.module';
+import { ToastrService } from '../../../node_modules/ngx-toastr';
 
 @Component({
   selector: 'app-person',
@@ -11,11 +12,25 @@ import {PaginationInstance} from '../../../node_modules/ngx-pagination/dist/ngx-
 export class PersonComponent implements OnInit {
 
   persons:any = [];
-  constructor(private route:ActivatedRoute,private router:Router,private  personService:PersonService) { }
+  constructor(private route:ActivatedRoute,private toastr: ToastrService,private router:Router,private  personService:PersonService) { }
 
   ngOnInit() {
-    this.getPersons();
-    
+    this.getPersons();    
+  }
+
+  edit(id){
+    this.personService.setId(id);
+    this.router.navigate(['/member/add',false]);
+  }
+
+  delete(id){
+    this.personService.deletePerson(id).subscribe(data=>{
+      console.log(data);
+      this.toastr.success('Member deleted successfully','Success');
+      this.getPersons();
+    },error=>{
+      console.log(error);
+    });  
   }
 
   getPersons(){

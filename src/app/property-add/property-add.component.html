@@ -1,7 +1,14 @@
 <app-header></app-header>
+<ngx-spinner
+bdColor = "rgba(51, 51, 51, 0.8)"
+size = "default"
+color = "#fff"
+type = "ball-clip-rotate"
+></ngx-spinner>
 <div class="container"  style="min-height: 550px">
-  <h4>Add Property</h4><hr>
-
+  <h4  *ngIf="action=='true'">Add Property</h4><hr  *ngIf="action=='true'">
+  <h4  *ngIf="action=='false'">Edit Property</h4>
+  <div  *ngIf="action=='true'">
   <form class="form-inline" role="form">
     <label class="mb-2 mr-sm-2">Search By:</label>
     <div class="form-check  mb-2 mr-sm-2">
@@ -21,20 +28,17 @@
   <div style="margin-top: 10px" *ngIf="personAndPropertyList.person==null" class="alert alert-danger">
       <strong>Error!</strong> Member with this Samagra Id / Phone not found.
   </div>
-  <hr>
+  </div>
 
-  <div  class="card" *ngIf="personAndPropertyList.person!=null && personAndPropertyList.person.name!=undefined">
-    <div class="card-header">Member Details</div>
+  <div  class="card" *ngIf="(personAndPropertyList.person!=null && personAndPropertyList.person.name!=undefined) || action=='false'">
+    <div class="card-header"  *ngIf="action=='true'">Member Details</div>
     <div class="card-body">
-            <table>
-                    <tr>
-                      <td><label>Samagra Id: {{personAndPropertyList.person.samagraId}}</label></td>
-                      <td   style="width: 50px"></td>
-                      <td><label>Name: {{personAndPropertyList.person.name}}</label></td>
-                      <td   style="width: 50px"></td>
-                      <td><label>Phone: {{personAndPropertyList.person.phone}}</label></td>
-                    </tr>
-                  </table>
+      <div  class="row" *ngIf="action=='true'">
+        <div  class="col"><b>Samagra Id</b>: {{personAndPropertyList.person.samagraId}}</div>
+        <div  class="col"><b>Name</b>: {{personAndPropertyList.person.name}}</div>
+        <div  class="col"><b>Phone</b>: {{personAndPropertyList.person.phone}}</div>
+      </div>
+      <hr *ngIf="action=='true'">
   <form [formGroup]="propertyForm">
       <div class="form-row mt-4">
     <div class="col-sm-6 pb-3" >
@@ -124,7 +128,7 @@
       <label>Property Usage:</label><br>
       <div *ngFor="let propertyUsage of propertyUsages" class="form-check-inline">
         <label class="form-check-label">
-          <input type="checkbox" class="form-check-input" (change)="onUsageChange(propertyUsage.propertyUsageId, $event.target.checked)"  name="pu" [value]="propertyUsage.propertyUsageId">{{propertyUsage.name}}
+          <input type="checkbox" class="form-check-input" [checked]="propertyUsage.checked" (change)="onUsageChange(propertyUsage.propertyUsageId, $event.target.checked)"  name="pu" [value]="propertyUsage.propertyUsageId">{{propertyUsage.name}}
         </label>
       </div>
       <p style="color: #721c24;" *ngIf="error.propertyUsageSelected">
@@ -135,7 +139,7 @@
       <label>Property Type:</label><br>
       <div *ngFor="let propertyType of propertyTypes" class="form-check-inline">
         <label class="form-check-label">
-          <input type="checkbox" class="form-check-input" (change)="onTypeChange(propertyType.propertyTypeId, $event.target.checked)" name="pt" [value]="propertyType.propertyTypeId">{{propertyType.name}}
+          <input type="checkbox" class="form-check-input"  [checked]="propertyType.checked" (change)="onTypeChange(propertyType.propertyTypeId, $event.target.checked)" name="pt" [value]="propertyType.propertyTypeId">{{propertyType.name}}
         </label>
       </div>
       <p style="color: #721c24;" *ngIf="error.propertyTypeSelected">
@@ -231,8 +235,12 @@
       </p>
     </div>
     <div class="col-sm-6 pb-3">
+      <div  *ngIf="action=='false'">
+        <label  *ngIf="!propertyObj.documents.length==0">Uploaded Files :</label><br>
+        <p  *ngFor="let doc of propertyObj.documents"><u>{{doc.name}}</u>&nbsp;<a  style="cursor: pointer;"  (click)="documentDelete(doc.documentId)"><i class="fa fa-trash"></i></a></p>
+      </div>
             <label for="potherdescription">Upload File:</label><br>
-            <input type="file" (change)="fileEvent($event.target.files)"    multiple><button class="btn btn-primary" (click)="uploadFile()">Upload</button>
+            <input type="file" (change)="fileEvent($event.target.files)"  multiple><button class="btn btn-primary" (click)="uploadFile()">Upload</button>
     </div>    
 
     </div>

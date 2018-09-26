@@ -1,10 +1,17 @@
 <app-header></app-header>
-<div class="container">
+<div class="container"  style="min-height: 550px">
   <h4>Tax Details</h4>
-  <table class="table table-hover">
+  <div  *ngIf="taxDetails.length>0">
+    <input type="text" class="form-control" style="width: 25%"    placeholder="Search" [(ngModel)]="filter">
+  </div>
+    <div *ngIf="taxDetails.length==0" class="card bg-light text-dark text-center" style="margin-top: 10px; width: 100%;">
+        <div class="card-body">
+          <h3><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> No Tax  Detail(s) present</h3>
+        </div>
+    </div>
+  <table  *ngIf="taxDetails.length>0" class="table table-hover">
     <thead>
       <tr>
-        <th scope="col">#</th>
         <th scope="col">Date</th>
         <th scope="col">Amount</th>
         <th scope="col">Status</th>
@@ -12,35 +19,28 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let taxDetail of taxDetails;index as i">
-        <th scope="row">{{i+1}}</th>
-        <td *ngIf="taxDetail.lastTaxPaidOn==null">N/A</td><td *ngIf="taxDetail.lastTaxPaidOn!=null">{{taxDetail.lastTaxPaidOn}}</td>
+      <tr *ngFor="let taxDetail of taxDetails  | taxfilter:filter | paginate: config">
+        <td *ngIf="taxDetail.lastTaxPaidOn==null">N/A</td><td *ngIf="taxDetail.lastTaxPaidOn!=null">{{taxDetail.lastTaxPaidOn | date}}</td>
         <td>{{taxDetail.amount}}</td>
         <td>{{taxDetail.currentTaxPaymentStatus}}</td>
         <td *ngIf="taxDetail.currentTaxPaymentStatus!='DUE'"><button class="btn btn-primary" (click)="viewReciept(taxDetail.taxDetailId)">View Reciept</button></td><td *ngIf="taxDetail.currentTaxPaymentStatus=='DUE'"><button (click)="payTax(taxDetail.taxDetailId)" class="btn btn-primary">Pay Tax</button></td>
       </tr>
     </tbody>
   </table>
+  <div *ngIf="taxDetails.length>0" class="has-text-centered"  style="margin-left: 33%;">
+      <pagination-controls [id]="config.id"
+                           [maxSize]="maxSize"
+                           [directionLinks]="directionLinks"
+                           [autoHide]="autoHide"
+                           [responsive]="responsive"
+                           [previousLabel]="labels.previousLabel"
+                           [nextLabel]="labels.nextLabel"
+                           [screenReaderPaginationLabel]="labels.screenReaderPaginationLabel"
+                           [screenReaderPageLabel]="labels.screenReaderPageLabel"
+                           [screenReaderCurrentLabel]="labels.screenReaderCurrentLabel"
+                           (pageChange)="onPageChange($event)"></pagination-controls>
+  </div>
 
-  <ng-template #content let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <form>
-        <div class="form-group">
-          
-        </div>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
-    </div>
-  </ng-template>
-  <div style="height: 600px;"></div>
 </div>
 
 <app-footer></app-footer>

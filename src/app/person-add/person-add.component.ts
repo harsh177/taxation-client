@@ -11,6 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '../../../node_modules/@angul
 })
 export class PersonAddComponent implements OnInit {
    person={
+    personId:"",
     name:"",
     gender:"",
     husband:"",
@@ -28,11 +29,20 @@ export class PersonAddComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe((param:ParamMap)=>{
-      this.action = param.get('action');  
+      this.action = param.get('action'); 
+      if(this.action=='false') {
+        let personId  = this.personService.getId();
+        if(personId==""){
+          this.router.navigate(['/member']);    
+        }else{
+          this.getPersonById(personId);
+        }
+      }
       console.log(this.action);
     })
 
     this.personForm = this._formBuilder.group({
+      personId:[""],
       name:["",[Validators.required,Validators.minLength(2),Validators.maxLength(50)]],
       gender:["MALE"],
       husband:["",[Validators.maxLength(50)]],
@@ -43,10 +53,22 @@ export class PersonAddComponent implements OnInit {
     });
   }
 
+  getPersonById(personId){
+    this.personService.getPersonById(personId).subscribe(data=>{
+      console.log(data);
+      this.person = <any>data.data;
+      this.personForm.setValue(this.person);
+    },error=>{
+      console.log(error);
+    });
+  }
+
   onSubmit(){
+    if(this.action=='true'){
     console.log(this.personForm.value);
     this.personService.savePerson(this.personForm.value).subscribe(data=>{
       console.log(data);
+      
       this.toastr.success('Member added successfully','Success');
       this.resetData();
       this.router.navigate(['/member']);
@@ -54,11 +76,23 @@ export class PersonAddComponent implements OnInit {
       this.toastr.error('Make sure all details are correct, try agan','Error');
       console.log(error);
     });
+  }else{
    
+    this.personService.updatePerson(this.personForm.value).subscribe(data=>{
+      console.log(data);
+      this.toastr.success('Member updated successfully','Success');
+      this.resetData();
+      this.router.navigate(['/member']);
+    },error=>{
+      this.toastr.error('Make sure all details are correct, try agan','Error');
+      console.log(error);
+    });
+  }
   }
 
   resetData(){
     this.person={
+      personId:"",
       name:"",
       gender:"",
       husband:"",
