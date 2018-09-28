@@ -26,6 +26,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/property']);
   }
 
+  navigateToReports(){
+    this.router.navigate(['/reports']);
+  }
+  
   navigateToPayTax(){
     this.router.navigate(['/paytax']);
   }

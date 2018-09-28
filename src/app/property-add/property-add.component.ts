@@ -18,6 +18,14 @@ export class PropertyAddComponent implements OnInit {
   searchBy="SAMAGRA";
   searchValue = "";
 
+  areas=["--Select--","Shivnagar","Hanuman Chowk","Patidar Manglik Bahavan","Ghatta Ki Fer"
+  ,"Bavdi Chowk","Patel Galli","Ambemata Chowk","Taravat Chowk","Makati Mohalla","Gandhi Chowk","Naya Bazar","Chvara Mohalla","Sadar Bazar","Ramgarh",
+"Bus Stand, Teja Chowk","Maruti Nagar","Ambedkar Nagar(Nayapura)","Satrunda Marg","Purani Basti","Mayta Kua Galli","Bhoi Vaas",
+"Aamlipaada","Moyapaada","Gurjarpaada","Buvanipaada Mataji","Bhurighanti","Bhuvanipaada Banjara Basti","Khedi","Piplipaada",
+"Panjpaada","Rundakhedi","Implipaada Bid","Mahudipaada","Kundaal Demwali","Kundaal Navin","Motipura","Nai Abadi 1061"];
+
+  cities=["Ratlam"];
+
   property:any={
     propertyId:"",
     propertyNumber:"",
@@ -68,6 +76,7 @@ export class PropertyAddComponent implements OnInit {
 
   action;
   propertyObj:any;
+  areaError=false;
 
   constructor(private route:ActivatedRoute,private _formBuilder:FormBuilder,private propertyService:PropertyService,private toastr: ToastrService,private router:Router) { }
 
@@ -97,9 +106,11 @@ export class PropertyAddComponent implements OnInit {
       propertyUsages:[[]],
       documents:[[]],
       active:[true],
+      transferredToSamagraId:[null],
+      transferred:[false],
       propertyNumber:["",[Validators.required,Validators.minLength(2),Validators.maxLength(50)]],
       subHolder:["",[Validators.required,Validators.minLength(2),Validators.maxLength(50)]],
-      area:["",[Validators.required,Validators.minLength(2),Validators.maxLength(50)]],
+      area:["--Select--"],
       city:["",[Validators.required,Validators.minLength(2),Validators.maxLength(50)]],
       pincode:["",[Validators.required,Validators.pattern('^[1-9][0-9]{5}$')]],
       residential:["YES"],
@@ -118,7 +129,10 @@ export class PropertyAddComponent implements OnInit {
 
     if(this.propertyObj.isResidential==true)
     this.propertyObj.residential="YES";
-    else  this.propertyObj.residential="NO";
+    else  {
+      this.propertyObj.residential="NO";
+      this.onResidentialNo(null);
+    }
     delete this.propertyObj.isResidential;
     if(this.propertyObj.isWaterConnected==true)
     this.propertyObj.waterConnected="YES";
@@ -175,22 +189,27 @@ export class PropertyAddComponent implements OnInit {
 
   saveProperty(samagraId){
     this.property = this.propertyForm.value;
+    if(this.property.area=="--Select--"){
+      this.areaError=true;
+      return;
+    }else this.areaError=false;
 
     this.property.samagraId = samagraId;
     this.property.propertyUsages = this.propertyUsages.filter(obj => obj.checked).map(obj => { return {propertyUsageId:obj.propertyUsageId,name: obj.name}});
     this.property.propertyTypes = this.propertyTypes.filter(obj => obj.checked).map(obj => { return {propertyTypeId:obj.propertyTypeId,name: obj.name}});
 
-    if(this.residential=='YES')this.property.isResidential=true;
+    if(this.property.residential=='YES')this.property.isResidential=true;
     else this.property.isResidential=false;
-    if(this.waterConnected=='YES')this.property.isWaterConnected=true;
+
+    if(this.property.waterConnected=='YES')this.property.isWaterConnected=true;
     else this.property.isWaterConnected=false;
 
     delete this.property.residential;
     delete this.property.waterConnected;
 
+    this.property.documents = this.documents;
+
     if(this.action=='false'){
-      this.property.documents = this.documents;
-      
       this.propertyObj.documents.forEach(obj=>{
         this.property.documents.push(obj);
       })
@@ -217,7 +236,7 @@ export class PropertyAddComponent implements OnInit {
     if(this.action=='false'){
     this.propertyService.updateProperty(this.property).subscribe(data=>{
       console.log(data);
-      this.toastr.success('Property added successfully','Success');
+      this.toastr.success('Property updated successfully','Success');
       this.resetData();
       this.router.navigate(['/property']);
     },error=>{

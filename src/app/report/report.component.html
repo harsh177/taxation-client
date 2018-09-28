@@ -1,0 +1,19 @@
+<app-header></app-header>
+<div class="container"  style="min-height: 550px">
+  
+  <div>
+      <div><h3>Reports</h3></div><hr>
+      <div>
+      <form [formGroup]="reportForm" class="form-inline" role="form">
+          <div class="form-group">
+            <label for="sel1">Download  Tax  Report	For:&nbsp;</label>
+            <select class="form-control"  formControlName="statusControl" id="sel1">
+                <option [value]="status" *ngFor="let status of allstatus">{{'ALL  '+status}}</option>
+            </select>
+          </div>
+         &nbsp; <button type="button" class="btn btn-primary" (click)="downloadReport()">Go</button>
+        </form>
+      </div>
+  </div>
+</div>
+<app-footer></app-footer>

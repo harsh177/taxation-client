@@ -69,7 +69,7 @@ type = "ball-clip-rotate"
 
     </div>
     <div class="col-sm-6 pb-3">
-      <label for="parea">Area:</label>
+      <!-- <label for="parea">Area:</label>
       <input type="text" class="form-control" formControlName="area">
       <p style="color: #721c24;" *ngIf="propertyForm.controls['area'].hasError('required')">
           Please enter area
@@ -79,6 +79,15 @@ type = "ball-clip-rotate"
         </p>
         <p style="color: #721c24;" *ngIf="propertyForm.controls['area'].hasError('maxlength')">
             Area can not exceed 50 characters
+        </p> -->
+        <div class="form-group">
+            <label for="parea">Area:&nbsp;</label>
+            <select class="form-control"  formControlName="area">
+                <option [value]="a" *ngFor="let a of areas">{{a}}</option>
+            </select>
+        </div>
+        <p style="color: #721c24;" *ngIf="areaError">
+            Please select area
         </p>
     </div>
     <div class="col-sm-6 pb-3">

@@ -17,6 +17,8 @@ export class PropertyService {
   private _url_base:string = Common.base_url;
   private _url_getall_property:string = this._url_base+"/property/getAll";
   private _url_create_property:string = this._url_base+"/property/add";
+  private _url_delete_property:string = this._url_base+"/property/";
+  
   private _url_update_property:string = this._url_base+"/property/update";
   private _url_transfer_property:string = this._url_base+"/property/transfer";
   private _url_upload_file:string = this._url_base+"/uploadMultipleFiles";
@@ -28,8 +30,7 @@ export class PropertyService {
   constructor(private http:HttpClient) { }
 
   saveProperty(property):Observable<IProperty>{
-    let currentUser = <any>JSON.parse(localStorage.getItem('currentUser'));
-    return this.http.post<IProperty>(this._url_create_property+'/'+currentUser.panchayat.panchayatId+'/'+currentUser.uid,property).pipe(tap(data=>data),catchError(this.errorHandler));
+    return this.http.post<IProperty>(this._url_create_property,property).pipe(tap(data=>data),catchError(this.errorHandler));
   }
 
   updateProperty(property):Observable<IProperty>{
@@ -48,11 +49,14 @@ export class PropertyService {
     return this.http.get<IProperty[]>(this._url_getall_property).pipe(tap(data => data) , catchError(this.errorHandler));
   }
 
+  deleteProperty(propertyId):Observable<any>{
+    return this.http.delete<any>(this._url_delete_property+propertyId).pipe(tap(data => data) , catchError(this.errorHandler));
+  }
+
   getAllPropertyUsage():Observable<ApplicationResponse>{
     return this.http.get<ApplicationResponse>(this._url_getall_property_usage).pipe(tap(data => data) , catchError(this.errorHandler));
   }
 
-  
   getAllPropertyType():Observable<ApplicationResponse>{
     return this.http.get<ApplicationResponse>(this._url_getall_property_types).pipe(tap(data => data) , catchError(this.errorHandler));
   }
@@ -67,12 +71,16 @@ export class PropertyService {
   }
 
   transferProperty(transfer):Observable<any>{
-    let currentUser = <any>JSON.parse(localStorage.getItem('currentUser'));
-    return this.http.post<any>(this._url_transfer_property+'/'+currentUser.panchayat.panchayatId+'/'+currentUser.uid,transfer).pipe(tap(data=>data),catchError(this.errorHandler));
+    return this.http.post<any>(this._url_transfer_property,transfer).pipe(tap(data=>data),catchError(this.errorHandler));
   }
 
   generateFileName(name:string,uuid:string,index){
-    return name.split(".")[0]+"_"+uuid+"_"+index+"."+name.split(".")[1];;
+    let str="";
+    let m=name.split(".");
+    for(var i=0;i<m.length-1;i++){
+      str = str+m[i];
+    }
+    return str+"_"+uuid+"_"+index+"."+m[m.length-1];
   }
 
   errorHandler(error: HttpErrorResponse){

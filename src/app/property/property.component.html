@@ -59,7 +59,7 @@ type = "ball-clip-rotate"
                     <td>{{property.city}}</td>
                     <td>{{property.customUniqueId}}</td>
                     <td>{{property.samagraId}}</td>
-                    <td><a  style="cursor: pointer;" (click)="op(property.propertyId,property.propertyId)" data-toggle="modal" data-target="#{{property.propertyId}}"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;<a style="cursor: pointer;" (click)="edit(property)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;<a style="cursor: pointer;" (click)="delete(property.propertyId)"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;<a  style="cursor: pointer;" (click)="op('transfer'+property.propertyId,property.propertyId)" data-toggle="modal" data-target="#{{'transfer'+property.propertyId}}"><i class="fa fa-share"></i></a>&nbsp;&nbsp;<a  style="cursor: pointer;"  (click)="navigateToTaxDetails(property.propertyId)"><i class="fa fa-money"></i></a>
+                    <td *ngIf="!property.transferred"><a  style="cursor: pointer;" (click)="op(property.propertyId,property.propertyId)" data-toggle="modal" data-target="#{{property.propertyId}}"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;<a style="cursor: pointer;" (click)="edit(property)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;<a style="cursor: pointer;" (click)="delete(property.propertyId)"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;<a  style="cursor: pointer;" (click)="op('transfer'+property.propertyId,property.propertyId)" data-toggle="modal" data-target="#{{'transfer'+property.propertyId}}"><i class="fa fa-share"></i></a>&nbsp;&nbsp;<a  style="cursor: pointer;"  (click)="navigateToTaxDetails(property.propertyId)"><i class="fa fa-money"></i></a>
                       <div class="modal fade" [id]="property.propertyId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
@@ -112,9 +112,9 @@ type = "ball-clip-rotate"
                                     </div>
                                     <div class="row" style="margin-bottom:20px">
                                       <div class="col"><b>Download Documents </b>: <br>
-                                      <a *ngFor="let  document  of  property.documents"  href="{{document.downloadUri}}">{{document.name}}</a><br>
+                                      <div  *ngFor="let  document  of  property.documents" ><a  href="{{document.downloadUri}}">{{document.name}}</a></div>
                                       </div>
-                                    </div>
+                                   </div>  
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -160,7 +160,7 @@ type = "ball-clip-rotate"
                             </div>
                           </div>
                     </td>
-                   
+                    <td *ngIf="property.transferred">Transfered To: {{property.transferredToSamagraId}}</td>
                   </tr>
                 </tbody>
               </table>

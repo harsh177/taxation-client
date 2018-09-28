@@ -27,6 +27,7 @@ import { MemberFilterPipe } from './helper/member.filter';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { PropertyFilterPipe } from './helper/property.filter';
 import { TaxFilterPipe } from './helper/taxDetail.filter';
+import { ReportComponent } from './report/report.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { TaxFilterPipe } from './helper/taxDetail.filter';
     StringFilterPipe,
     MemberFilterPipe,
     PropertyFilterPipe,
-    TaxFilterPipe
+    TaxFilterPipe,
+    ReportComponent
   ],
   imports: [
     BrowserModule,

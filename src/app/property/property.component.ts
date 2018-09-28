@@ -4,6 +4,7 @@ import { PaginationInstance } from '../../../node_modules/ngx-pagination';
 import { PropertyService } from './proprty.service';
 import { ToastrService } from '../../../node_modules/ngx-toastr';
 import { PersonService } from '../person/person.service';
+declare var   $:any;
 
 @Component({
   selector: 'app-property',
@@ -16,7 +17,6 @@ export class PropertyComponent implements OnInit {
   searchBy  = "SAMAGRA";
   properties:any = [];
   error = false;
-
   constructor(private personService:PersonService,private toastr: ToastrService,private route:ActivatedRoute,private router:Router,private propertyService:PropertyService) {}
 
   ngOnInit() {
@@ -55,7 +55,13 @@ export class PropertyComponent implements OnInit {
   }
 
   delete(propertyId){
-    
+    this.propertyService.deleteProperty(propertyId).subscribe(data=>{
+      console.log(data);
+      this.getDetailsByPhoneOrSamagraOrUniqueId();
+      this.toastr.success('Property deleted successfully','Success');
+    },error=>{
+      console.log(error);
+    }); 
   }
 
   navigateToTaxDetails(propertyId){
@@ -68,7 +74,7 @@ export class PropertyComponent implements OnInit {
       console.log(data);
       this.toastr.success('Property transfered successfully','Success');
       this.resetData();
-      this.router.navigate(['/property']);
+      this.getDetailsByPhoneOrSamagraOrUniqueId();
     },error=>{
       this.toastr.error('Make sure all details are correct, try again','Error');
       console.log(error);
@@ -84,6 +90,7 @@ export class PropertyComponent implements OnInit {
       documents:[]
     };
     this.transferFormVisiblity=false;
+    this.validateSamagraError=false;
   }
 
   fileToUpload: File[] = [];

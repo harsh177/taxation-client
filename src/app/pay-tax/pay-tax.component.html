@@ -33,12 +33,57 @@
                 <div class="card" *ngFor="let property of personAndPropertyList.propertyList;index as i">
                   <div class="card-header">
                     <a class="card-link" data-toggle="collapse" [href]="'#collapse'+i">
-                       # {{i+1}} - {{property.propertyNumber}}, {{property.area}}
+                       {{property.customUniqueId}} ,  {{property.propertyNumber}}, {{property.area}}
                     </a>
                   </div>
                   <div [id]="'collapse'+i" class="collapse" data-parent="#accordion">
                     <div class="card-body">
-                      <table>
+                        <div class="row" style="margin-bottom:20px">
+                            <div class="col"><b>Samagra Id </b>: {{property.samagraId}}</div>
+                            <div class="col"><b>Unique Id </b>: {{property.customUniqueId}}</div>
+                            <div class="col"><b>Subholder Name </b>: {{property.subHolder}}</div>
+                          </div>
+                          <div class="row" style="margin-bottom:20px">
+                            <div class="col"><b>Prperty Number </b>: {{property.propertyNumber}}</div>
+                            
+                            <div class="col"><b>Area </b>: {{property.area}}</div>
+                            <div class="col"><b>City </b>: {{property.city}}</div>
+                          </div>
+                          <div class="row" style="margin-bottom:20px">
+                                
+                                <div class="col"><b>Pincode </b>: {{property.pincode}}</div>
+                                <div class="col"><b>Is water Connected </b>: {{property.waterConnected}}</div>
+                                <div class="col"><b>Is Residential </b>: {{property.isResidential}}</div>
+                          </div>
+                            <div class="row" style="margin-bottom:20px">
+                                
+                                <div class="col"><b>Resident Name </b>: {{property.residentName}}</div>
+                                <div class="col"><b>East Landmark </b>: {{property.eastLandmark}}</div>
+                                <div class="col"><b>West Landmark </b>: {{property.westLandmark}}</div>
+                          </div>
+                          <div class="row" style="margin-bottom:20px">
+                            
+                            <div class="col"><b>North Landmark </b>: {{property.northLandmark}}</div>
+                            <div class="col"><b>South Landmark </b>: {{property.southLandmark}}</div>
+                            <div class="col"><b>Water Bill Description </b>: {{property.waterBillDescription}}</div>
+                          </div>
+                          <div class="row" style="margin-bottom:20px">
+                            
+                            <div class="col"><b>Shared Wall Description </b>: {{property.sharedWallDescription}}</div>
+                            <div class="col"><b>Other Description </b>: {{property.otherDescription}}</div>
+                            <div  class="col"><b>Property Types</b> :<br>
+                              <p *ngFor="let pt  of  property.propertyTypes">{{pt.name}}</p>
+                            </div>
+                          </div>
+                          <div  class="row">
+                            
+                            <div  class="col"><b>Property Usages</b> :<br>
+                              <p *ngFor="let pv  of  property.propertyUsages">{{pv.name}}</p>
+                            </div>
+                            <div  class="col"></div>
+                            <div  class="col"></div>
+                          </div>
+                      <!-- <table>
                         <tr>
                           <td><label>City: {{property.city}}</label></td>
                           <td style="width: 30px"></td>
@@ -46,7 +91,7 @@
                           <td style="width: 30px"></td>
                           <td><button (click)="openTaxDetails(property.propertyId)" class="btn btn-primary">View tax details</button></td>
                         </tr>
-                      </table>
+                      </table> -->
                     </div>
                   </div> 
                 </div>
