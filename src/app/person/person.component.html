@@ -7,9 +7,9 @@
     type = "ball-clip-rotate"
     ></ngx-spinner>
 <div class="row">
-    <label  style="padding-top: 5px;">Search members:</label>&nbsp;
-    <input type="text" class="form-control" style="width: 25%"    placeholder="Search" [(ngModel)]="filter">
-    <button class="btn btn-primary" style="margin-left: auto;" (click)="navigateToAddMember()">Add Member</button>
+    <label *ngIf="persons.length>0" style="padding-top: 5px;">Search members:</label>&nbsp;
+    <input *ngIf="persons.length>0" type="text" class="form-control" style="width: 25%"    placeholder="Search" [(ngModel)]="filter">
+    <button class="btn btn-success" style="margin-left: auto;" (click)="navigateToAddMember()">Add Member</button>
     
     <div *ngIf="persons.length==0" class="card bg-light text-dark text-center" style="margin-top: 10px; width: 100%;">
         <div class="card-body">

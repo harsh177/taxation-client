@@ -5,6 +5,7 @@ import { IPropertyType } from '../property/property-type-interface';
 import { ToastrService } from '../../../node_modules/ngx-toastr';
 import { Router, ActivatedRoute, ParamMap } from '../../../node_modules/@angular/router';
 import { FormGroup, FormBuilder, Validators } from '../../../node_modules/@angular/forms';
+import { NgxSpinnerService } from '../../../node_modules/ngx-spinner';
 
 @Component({
   selector: 'app-property-add',
@@ -78,7 +79,7 @@ export class PropertyAddComponent implements OnInit {
   propertyObj:any;
   areaError=false;
 
-  constructor(private route:ActivatedRoute,private _formBuilder:FormBuilder,private propertyService:PropertyService,private toastr: ToastrService,private router:Router) { }
+  constructor(private spinner: NgxSpinnerService,private route:ActivatedRoute,private _formBuilder:FormBuilder,private propertyService:PropertyService,private toastr: ToastrService,private router:Router) { }
 
   ngOnInit() {
 
@@ -143,7 +144,9 @@ export class PropertyAddComponent implements OnInit {
   }
 
   fetchPreDetails(){
+    this.spinner.show();
     this.propertyService.getAllPropertyUsage().subscribe(data=>{
+      this.spinner.hide();
       console.log(data);
       this.propertyUsages = <any[]>data.data;
       this.propertyUsages.forEach(obj=> {
@@ -159,9 +162,11 @@ export class PropertyAddComponent implements OnInit {
 
      if(this.action=='false')delete this.propertyObj.propertyUsages;
     },error=>{
+      this.spinner.hide();
       console.log(error);
     });
     this.propertyService.getAllPropertyType().subscribe(data=>{
+      this.spinner.hide();
       this.propertyTypes = <any[]>data.data;
       this.propertyTypes.forEach(obj=> {
         if(this.action=='false' &&  this.propertyObj!=undefined){
@@ -176,6 +181,7 @@ export class PropertyAddComponent implements OnInit {
       if(this.action=='false')delete this.propertyObj.propertyTypes;
 
     },error=>{
+      this.spinner.hide();
       console.log(error);
     });
 
@@ -221,13 +227,16 @@ export class PropertyAddComponent implements OnInit {
 
     if(!this.isCheckboxesSelected())return;
 
+    this.spinner.show();
     if(this.action=='true'){
     this.propertyService.saveProperty(this.property).subscribe(data=>{
       console.log(data);
+      this.spinner.hide();
       this.toastr.success('Property added successfully','Success');
       this.resetData();
       this.router.navigate(['/property']);
     },error=>{
+      this.spinner.hide();
       this.toastr.error('Make sure all details are correct, try again','Error');
       console.log(error);
     });
@@ -236,10 +245,12 @@ export class PropertyAddComponent implements OnInit {
     if(this.action=='false'){
     this.propertyService.updateProperty(this.property).subscribe(data=>{
       console.log(data);
+      this.spinner.hide();
       this.toastr.success('Property updated successfully','Success');
       this.resetData();
       this.router.navigate(['/property']);
     },error=>{
+      this.spinner.hide();
       this.toastr.error('Make sure all details are correct, try again','Error');
       console.log(error);
     });
@@ -260,10 +271,13 @@ export class PropertyAddComponent implements OnInit {
         samagraId:""
       };
     }
+    this.spinner.show();
     this.propertyService.getPropertyByPhoneOrSamagra(this.phoneOrSamagra).subscribe(data=>{
+      this.spinner.hide();
       this.personAndPropertyList = <any>data.data;
       console.log(this.personAndPropertyList);
     },error=>{
+      this.spinner.hide();
       console.log(error);
     });
   }
@@ -356,6 +370,7 @@ export class PropertyAddComponent implements OnInit {
 
   fileEvent(files: FileList){
     this.documents=[];
+    this.fileToUpload=[];
     for(var i=0;i<files.length;i++){
       this.fileToUpload.push(files.item(i));  
     }
@@ -366,14 +381,17 @@ export class PropertyAddComponent implements OnInit {
     if(this.fileToUpload == null){
       return;
     }
+    this.spinner.show();
     this.propertyService.postFile(this.fileToUpload,this.uuid).subscribe(data => {
       // do something, if upload success
       console.log(data);
+      this.spinner.hide();
       data.forEach(element => {
         this.documents.push({name:element.fileName,downloadUri:element.fileDownloadUri,size:element.size});
       });
       this.toastr.success('File(s) sucessfully uploaded','Success');
       }, error => {
+        this.spinner.hide();
         console.log(error);
       });
   }

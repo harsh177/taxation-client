@@ -10,7 +10,7 @@
       <label for="phn">&nbsp;Or Phone &nbsp;</label>
       <input type="text" class="form-control" [(ngModel)]="phoneOrSamagra.phoneNumber" name="phn" id="phn">
       &nbsp;&nbsp;
-      <button type="submit" (click)='getDetailsByPhoneOrSamagra()' class="btn btn-primary">Search Member</button>
+      <button type="submit" (click)='getDetailsByPhoneOrSamagra()' class="btn btn-success">Search Member</button>
     </form>
     <div style="height: 10px;"></div>
     <div style="margin-top: 10px" *ngIf="personAndPropertyList.person==null" class="alert alert-danger">
@@ -52,8 +52,8 @@
                           <div class="row" style="margin-bottom:20px">
                                 
                                 <div class="col"><b>Pincode </b>: {{property.pincode}}</div>
-                                <div class="col"><b>Is water Connected </b>: {{property.waterConnected}}</div>
-                                <div class="col"><b>Is Residential </b>: {{property.isResidential}}</div>
+                                <div class="col"><b>Is water Connected </b>: {{property.waterConnected==true ? 'YES' : 'NO'}}</div>
+                                <div class="col"><b>Is Residential </b>: {{property.isResidential==true ? 'YES' : 'NO'}}</div>
                           </div>
                             <div class="row" style="margin-bottom:20px">
                                 
@@ -81,7 +81,7 @@
                               <p *ngFor="let pv  of  property.propertyUsages">{{pv.name}}</p>
                             </div>
                             <div  class="col"></div>
-                            <div  class="col"></div>
+                            <div  class="col"><button class="btn btn-success" (click)="openTaxDetails(property.propertyId)">Tax Details</button></div>
                           </div>
                       <!-- <table>
                         <tr>

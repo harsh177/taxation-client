@@ -4,6 +4,7 @@ import { PersonService } from '../person/person.service';
 import { ToastrService } from '../../../node_modules/ngx-toastr';
 import { Router, ActivatedRoute, ParamMap } from '../../../node_modules/@angular/router';
 import { FormBuilder, FormGroup, Validators } from '../../../node_modules/@angular/forms';
+import { NgxSpinnerService } from '../../../node_modules/ngx-spinner';
 @Component({
   selector: 'app-person-add',
   templateUrl: './person-add.component.html',
@@ -25,7 +26,7 @@ export class PersonAddComponent implements OnInit {
 
   action;
 
-  constructor(private route:ActivatedRoute,private _formBuilder:FormBuilder,private personService:PersonService,private toastr: ToastrService,private router:Router) { }
+  constructor(private spinner: NgxSpinnerService,private route:ActivatedRoute,private _formBuilder:FormBuilder,private personService:PersonService,private toastr: ToastrService,private router:Router) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((param:ParamMap)=>{
@@ -54,25 +55,30 @@ export class PersonAddComponent implements OnInit {
   }
 
   getPersonById(personId){
+    this.spinner.show();
     this.personService.getPersonById(personId).subscribe(data=>{
+      this.spinner.hide();
       console.log(data);
       this.person = <any>data.data;
       this.personForm.setValue(this.person);
     },error=>{
+      this.spinner.hide();
       console.log(error);
     });
   }
 
   onSubmit(){
+    this.spinner.show();
     if(this.action=='true'){
     console.log(this.personForm.value);
     this.personService.savePerson(this.personForm.value).subscribe(data=>{
       console.log(data);
-      
+      this.spinner.hide();
       this.toastr.success('Member added successfully','Success');
       this.resetData();
       this.router.navigate(['/member']);
     },error=>{
+      this.spinner.hide();
       this.toastr.error('Make sure all details are correct, try agan','Error');
       console.log(error);
     });
@@ -80,10 +86,12 @@ export class PersonAddComponent implements OnInit {
    
     this.personService.updatePerson(this.personForm.value).subscribe(data=>{
       console.log(data);
+      this.spinner.hide();
       this.toastr.success('Member updated successfully','Success');
       this.resetData();
       this.router.navigate(['/member']);
     },error=>{
+      this.spinner.hide();
       this.toastr.error('Make sure all details are correct, try agan','Error');
       console.log(error);
     });

@@ -26,8 +26,8 @@ type = "ball-clip-rotate"
                       </label>
                     </div>
                   <input type="text" class="form-control mb-2 mr-sm-2"  name="searchValue" [(ngModel)]="searchValue" placeholder="Search">
-                  <button type="button" class="btn btn-primary mb-2" (click)="getDetailsByPhoneOrSamagraOrUniqueId()">Search Property</button>
-                  <button type="button" class="btn btn-primary mb-2" style="margin-left: 200px;" (click)="navigateToAddProperty()">Add Property</button>
+                  <button type="button" class="btn btn-success mb-2" (click)="getDetailsByPhoneOrSamagraOrUniqueId()">Search Property</button>
+                  <button type="button" class="btn btn-success mb-2" style="margin-left: 200px;" (click)="navigateToAddProperty()">Add Property</button>
             </form>
         
             <div *ngIf="error" class="card bg-light text-dark text-center" style="margin-top: 10px; width: 100%;">
@@ -83,10 +83,10 @@ type = "ball-clip-rotate"
                                     <div class="row" style="margin-bottom:20px">
                                           <div class="col"><b>City </b>: {{property.city}}</div>
                                           <div class="col"><b>Pincode </b>: {{property.pincode}}</div>
-                                          <div class="col"><b>Is water Connected </b>: {{property.waterConnected}}</div>
+                                          <div class="col"><b>Water Connected </b>: {{property.waterConnected==true ? 'YES' : 'NO'}}</div>
                                     </div>
                                       <div class="row" style="margin-bottom:20px">
-                                          <div class="col"><b>Is Residential </b>: {{property.isResidential}}</div>
+                                          <div class="col"><b>Residential </b>: {{property.isResidential== true ? 'YES' : 'NO'}}</div>
                                           <div class="col"><b>Resident Name </b>: {{property.residentName}}</div>
                                           <div class="col"><b>East Landmark </b>: {{property.eastLandmark}}</div>
                                     </div>
@@ -137,7 +137,7 @@ type = "ball-clip-rotate"
                                         <div  class="col">  <input type="text"  name="transferToSamagraId" [(ngModel)]="transferObj.transferToSamagraId" placeholder="Samagra Id" class="form-control">
                                           <p  class="text-danger" *ngIf="validateSamagraError">Invalid Samagra Id</p>
                                         </div>
-                                        <div  class="col">  <button (click)="validateSamagra()" class="btn btn-primary">Validate</button></div>    
+                                        <div  class="col">  <button (click)="validateSamagra()" class="btn btn-success">Validate</button></div>    
                                     </div>
                                     <div *ngIf="transferFormVisiblity" class="row" style="margin-top: 10px">
                                       <div  class="col">Subholder Name</div>
@@ -149,12 +149,12 @@ type = "ball-clip-rotate"
                                     </div>
                                     <div *ngIf="transferFormVisiblity" class="row" style="margin-top: 10px">
                                           <div  class="col"><input type="file" (change)="fileEvent($event.target.files)" multiple></div>
-                                          <div  class="col"><button class="btn btn-primary" (click)="uploadFile()">Upload</button></div>
+                                          <div  class="col"><button class="btn btn-success" (click)="uploadFile()">Upload</button></div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" (click)="cancel()" data-dismiss="modal">Close</button>
-                                  <button type="button" class="btn btn-primary" [disabled]="!transferFormVisiblity" (click)="transferProperty()">Transfer</button>
+                                  <button type="button" class="btn btn-success" [disabled]="!transferFormVisiblity" (click)="transferProperty()">Transfer</button>
                                 </div>
                               </div>
                             </div>

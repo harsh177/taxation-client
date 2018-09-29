@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, ParamMap } from '../../../node_modules/@angular
 import { PersonService } from './person.service';
 import {PaginationInstance} from '../../../node_modules/ngx-pagination/dist/ngx-pagination.module';
 import { ToastrService } from '../../../node_modules/ngx-toastr';
+import { NgxSpinnerService } from '../../../node_modules/ngx-spinner';
 
 @Component({
   selector: 'app-person',
@@ -12,7 +13,7 @@ import { ToastrService } from '../../../node_modules/ngx-toastr';
 export class PersonComponent implements OnInit {
 
   persons:any = [];
-  constructor(private route:ActivatedRoute,private toastr: ToastrService,private router:Router,private  personService:PersonService) { }
+  constructor(private spinner: NgxSpinnerService,private route:ActivatedRoute,private toastr: ToastrService,private router:Router,private  personService:PersonService) { }
 
   ngOnInit() {
     this.getPersons();    
@@ -24,20 +25,26 @@ export class PersonComponent implements OnInit {
   }
 
   delete(id){
+    this.spinner.show();
     this.personService.deletePerson(id).subscribe(data=>{
+      this.spinner.hide();
       console.log(data);
       this.toastr.success('Member deleted successfully','Success');
       this.getPersons();
     },error=>{
+      this.spinner.hide();
       console.log(error);
     });  
   }
 
   getPersons(){
+    this.spinner.show();
   this.personService.getPersons().subscribe(data=>{
+    this.spinner.hide();
       console.log(data);
       this.persons = data.data;
     },error=>{
+      this.spinner.hide();
       console.log(error);
     });
   }

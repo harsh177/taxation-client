@@ -7,7 +7,7 @@ import { NgxSpinnerService } from '../../../node_modules/ngx-spinner';
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
     
-    constructor(private spinner: NgxSpinnerService){}
+    constructor(){}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // add authorization header with jwt token if available
@@ -20,10 +20,10 @@ export class JwtInterceptor implements HttpInterceptor {
                 }
             });
         }
-        this.spinner.show();
+        
         return next.handle(request).pipe(
 	        tap(event => {
-                this.spinner.hide();
+        
 	          if (event instanceof HttpResponse) {
 	             
 	            console.log(" all looks good");
@@ -31,7 +31,6 @@ export class JwtInterceptor implements HttpInterceptor {
 	            console.log(event.status);
 	          }
 	        }, error => {
-                this.spinner.hide();
 	   			// http response status code
 	          	console.log("----response----");
 	          	console.error("status code:");

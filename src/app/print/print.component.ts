@@ -71,7 +71,8 @@ export class PrintComponent implements OnInit {
     var doc = new jsPDF();
     doc.addImage(img,'JPEG',15,10);
     //doc.addImage(imgData, 'JPEG', left margin , top margin, width, length)
-    doc.save('TaxReciept.pdf');
+    var d = new Date();
+    doc.save('TaxReciept_'+d+'.pdf');
     });
   }
 }

@@ -4,6 +4,7 @@ import { PaginationInstance } from '../../../node_modules/ngx-pagination';
 import { PropertyService } from './proprty.service';
 import { ToastrService } from '../../../node_modules/ngx-toastr';
 import { PersonService } from '../person/person.service';
+import { NgxSpinnerService } from '../../../node_modules/ngx-spinner';
 declare var   $:any;
 
 @Component({
@@ -17,7 +18,7 @@ export class PropertyComponent implements OnInit {
   searchBy  = "SAMAGRA";
   properties:any = [];
   error = false;
-  constructor(private personService:PersonService,private toastr: ToastrService,private route:ActivatedRoute,private router:Router,private propertyService:PropertyService) {}
+  constructor(private spinner: NgxSpinnerService,private personService:PersonService,private toastr: ToastrService,private route:ActivatedRoute,private router:Router,private propertyService:PropertyService) {}
 
   ngOnInit() {
     this.uuid = this.generateUUID();
@@ -55,11 +56,14 @@ export class PropertyComponent implements OnInit {
   }
 
   delete(propertyId){
+    this.spinner.show();
     this.propertyService.deleteProperty(propertyId).subscribe(data=>{
+      this.spinner.hide();
       console.log(data);
       this.getDetailsByPhoneOrSamagraOrUniqueId();
       this.toastr.success('Property deleted successfully','Success');
     },error=>{
+      this.spinner.hide();
       console.log(error);
     }); 
   }
@@ -70,12 +74,15 @@ export class PropertyComponent implements OnInit {
 
   transferProperty(){
     if(this.transferObj.propertyId=="" ||  this.transferObj.transferToSamagraId=="" || this.transferObj.newSubHolder=="" ||  this.transferObj.residentName=="" )return;
+    this.spinner.show();
     this.propertyService.transferProperty(this.transferObj).subscribe(data=>{
       console.log(data);
+      this.spinner.hide();
       this.toastr.success('Property transfered successfully','Success');
       this.resetData();
       this.getDetailsByPhoneOrSamagraOrUniqueId();
     },error=>{
+      this.spinner.hide();
       this.toastr.error('Make sure all details are correct, try again','Error');
       console.log(error);
     });
@@ -99,7 +106,9 @@ export class PropertyComponent implements OnInit {
   validateSamagraError=false;
   
   validateSamagra(){
+    this.spinner.show();
     this.personService.getPersonBySamagraId(this.transferObj.transferToSamagraId).subscribe(data=>{
+      this.spinner.hide();
       console.log(data);
       if(!data.status){
         this.validateSamagraError=true;
@@ -109,6 +118,7 @@ export class PropertyComponent implements OnInit {
         this.transferFormVisiblity=true;
       }
     },error=>{
+      this.spinner.hide();
       console.log(error);
     });
   }
@@ -125,14 +135,18 @@ export class PropertyComponent implements OnInit {
     if(this.fileToUpload == null){
       return;
     }
+    this.spinner.show();
     this.propertyService.postFile(this.fileToUpload,this.uuid).subscribe(data => {
       // do something, if upload success
+      
       console.log(data);
       data.forEach(element => {
         this.transferObj.documents.push({name:element.fileName,downloadUri:element.fileDownloadUri,size:element.size});
       });
+      this.spinner.hide();
       this.toastr.success('File(s) sucessfully uploaded','Success');
       }, error => {
+        this.spinner.hide();
         console.log(error);
       });
   }
@@ -179,12 +193,15 @@ export class PropertyComponent implements OnInit {
         customUniqueId:this.searchValue
       };
     }
+    this.spinner.show();
     this.propertyService.getPropertyByPhoneOrSamagraOrUniqueId(this.phoneOrSamagraOrUnique).subscribe(data=>{
+      this.spinner.hide();
       this.properties = <any>data.data;
       if(this.properties.length==0)this.error=true;
       else  this.error=false;
       console.log(this.properties);
     },error=>{
+      this.spinner.hide();
       this.error=true;
       console.log(error);
     });
@@ -216,6 +233,5 @@ export class PropertyComponent implements OnInit {
       console.log('change to page', number);
       this.config.currentPage = number;
   }
-
 
 }

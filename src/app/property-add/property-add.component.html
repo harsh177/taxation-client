@@ -22,7 +22,7 @@ type = "ball-clip-rotate"
             </label>
     </div>
     <input type="text" class="form-control mb-2 mr-sm-2" name="searchValue" [(ngModel)]="searchValue" placeholder="Search">
-    <button type="submit" (click)='getDetailsByPhoneOrSamagra()'    style="margin-top: -10px;" class="btn btn-primary">Search Member</button>
+    <button type="submit" (click)='getDetailsByPhoneOrSamagra()'    style="margin-top: -10px;" class="btn btn-success">Search Member</button>
 </form>
   
   <div style="margin-top: 10px" *ngIf="personAndPropertyList.person==null" class="alert alert-danger">
@@ -117,12 +117,12 @@ type = "ball-clip-rotate"
       <label>Is residential:</label><br>
       <div class="form-check-inline">
         <label class="form-check-label">
-          <input type="radio" class="form-check-input" (change)="onResidentialYes($event)" formControlName="residential" value="YES" checked>Yes
+          <input type="radio" class="form-check-input" (change)="onResidentialYes($event)" formControlName="residential" value="YES" checked>YES
         </label>
       </div>
       <div class="form-check-inline">
         <label class="form-check-label">
-          <input type="radio" class="form-check-input" (change)="onResidentialNo($event)" formControlName="residential" value="NO" >No
+          <input type="radio" class="form-check-input" (change)="onResidentialNo($event)" formControlName="residential" value="NO" >NO
         </label>
       </div>
     </div>
@@ -213,12 +213,12 @@ type = "ball-clip-rotate"
       <label>Is water connected:</label><br>
       <div class="form-check-inline">
         <label class="form-check-label">
-          <input type="radio" class="form-check-input" formControlName="waterConnected" value="YES">Yes
+          <input type="radio" class="form-check-input" formControlName="waterConnected" value="YES">YES
         </label>
       </div>
       <div class="form-check-inline">
         <label class="form-check-label">
-          <input type="radio" class="form-check-input" formControlName="waterConnected" value="NO">No
+          <input type="radio" class="form-check-input" formControlName="waterConnected" value="NO">NO
         </label>
       </div>
     </div>
@@ -249,11 +249,11 @@ type = "ball-clip-rotate"
         <p  *ngFor="let doc of propertyObj.documents"><u>{{doc.name}}</u>&nbsp;<a  style="cursor: pointer;"  (click)="documentDelete(doc.documentId)"><i class="fa fa-trash"></i></a></p>
       </div>
             <label for="potherdescription">Upload File:</label><br>
-            <input type="file" (change)="fileEvent($event.target.files)"  multiple><button class="btn btn-primary" (click)="uploadFile()">Upload</button>
+            <input type="file" (change)="fileEvent($event.target.files)"  multiple><button class="btn btn-success" (click)="uploadFile()">Upload</button>
     </div>    
 
     </div>
-    <button type="submit" [disabled]="!propertyForm.valid" (click)="saveProperty(personAndPropertyList.person.samagraId)" class="btn btn-primary">Save</button>
+    <button type="submit" [disabled]="!propertyForm.valid" (click)="saveProperty(personAndPropertyList.person.samagraId)" class="btn btn-success">Save</button>
   </form>
 </div>
   </div>

@@ -23,7 +23,7 @@
         <td *ngIf="taxDetail.lastTaxPaidOn==null">N/A</td><td *ngIf="taxDetail.lastTaxPaidOn!=null">{{taxDetail.lastTaxPaidOn | date}}</td>
         <td>{{taxDetail.amount}}</td>
         <td>{{taxDetail.currentTaxPaymentStatus}}</td>
-        <td *ngIf="taxDetail.currentTaxPaymentStatus!='DUE'"><button class="btn btn-primary" (click)="viewReciept(taxDetail.taxDetailId)">View Reciept</button></td><td *ngIf="taxDetail.currentTaxPaymentStatus=='DUE'"><button (click)="payTax(taxDetail.taxDetailId)" class="btn btn-primary">Pay Tax</button></td>
+        <td *ngIf="taxDetail.currentTaxPaymentStatus!='DUE'"><button class="btn btn-success" (click)="viewReciept(taxDetail.taxDetailId)">View Reciept</button></td><td *ngIf="taxDetail.currentTaxPaymentStatus=='DUE'"><button (click)="payTax(taxDetail.taxDetailId)" class="btn btn-primary">Pay Tax</button></td>
       </tr>
     </tbody>
   </table>
