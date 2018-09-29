@@ -6,7 +6,7 @@
     <hr>
     <form class="form-inline">
       <label for="samagra">Samagra Id&nbsp;</label>
-      <input type="text" class="form-control" [(ngModel)]="phoneOrSamagra.samagraId" name="samagraId" id="samagra" maxlength="9">
+      <input type="text" class="form-control" [(ngModel)]="phoneOrSamagra.samagraId" name="samagraId" id="samagra" maxlength="8">
       <label for="phn">&nbsp;Or Phone &nbsp;</label>
       <input type="text" class="form-control" [(ngModel)]="phoneOrSamagra.phoneNumber" name="phn" id="phn">
       &nbsp;&nbsp;
@@ -81,7 +81,8 @@
                               <p *ngFor="let pv  of  property.propertyUsages">{{pv.name}}</p>
                             </div>
                             <div  class="col"></div>
-                            <div  class="col"><button class="btn btn-success" (click)="openTaxDetails(property.propertyId)">Tax Details</button></div>
+                            <div  class="col" *ngIf="!property.transferred"><button class="btn btn-success" (click)="openTaxDetails(property.propertyId)">Tax Details</button></div>
+                            <div  class="col" *ngIf="property.transferred">This property has been transfered to: {{property.transferredToSamagraId}}</div>
                           </div>
                       <!-- <table>
                         <tr>

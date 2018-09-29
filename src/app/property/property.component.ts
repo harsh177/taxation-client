@@ -38,10 +38,12 @@ export class PropertyComponent implements OnInit {
   };
 
   transferFormVisiblity=false;
-
+  ctId = "";
   op(v,id){
+    this.ctId = "";
     $('#'+v).modal('show');
     if(v.toString().indexOf("transfer")!=-1){
+      this.ctId = v;
       this.transferObj.propertyId=id.toString();
     }
   }
@@ -76,7 +78,7 @@ export class PropertyComponent implements OnInit {
     if(this.transferObj.propertyId=="" ||  this.transferObj.transferToSamagraId=="" || this.transferObj.newSubHolder=="" ||  this.transferObj.residentName=="" )return;
     this.spinner.show();
     this.propertyService.transferProperty(this.transferObj).subscribe(data=>{
-      console.log(data);
+      $('#'+this.ctId).modal('hide');
       this.spinner.hide();
       this.toastr.success('Property transfered successfully','Success');
       this.resetData();
