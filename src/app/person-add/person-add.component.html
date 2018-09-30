@@ -12,7 +12,7 @@ type = "ball-clip-rotate"
 
   <div class="form-row mt-4">
   <div class="col-sm-6 pb-3">
-    <label for="pname">Name:</label>
+    <label for="pname">Name(समग्र सदस्य का नाम):</label>
     <input type="text" placeholder="Enter member name" class="form-control" formControlName="name">
     <p style="color: #721c24;" *ngIf="personForm.controls['name'].hasError('required')">
       Please enter a name
@@ -25,7 +25,7 @@ type = "ball-clip-rotate"
     </p>
   </div>
   <div class="col-sm-6 pb-3">
-    <label for="pphone">Mobile:</label>
+    <label for="pphone">Mobile(मोबाइल):</label>
     <input type="text" class="form-control" placeholder="Enter phone number" formControlName="phone">
     <p style="color: #721c24;" *ngIf="personForm.controls['phone'].hasError('required')">
         Please enter a phone
@@ -36,7 +36,7 @@ type = "ball-clip-rotate"
   </div>
 
   <div class="form-group" class="col-sm-6 pb-3">
-    <label for="psamagraid">Samagra ID:</label>
+    <label for="psamagraid">Samagra ID(समग्रा आई.डी.):</label>
     <input type="text" class="form-control" placeholder="Enter samagraId" formControlName="samagraId">
     <p style="color: #721c24;" *ngIf="personForm.controls['samagraId'].hasError('required')">
         Please enter a samagraId
@@ -46,35 +46,35 @@ type = "ball-clip-rotate"
     </p>  
   </div>
   <div class="form-group" class="col-sm-6 pb-3">
-    <label>Select Gender:</label><br>
+    <label>Select Gender(लिंग):</label><br>
     <div class="form-check-inline">
       <label class="form-check-label">
-        <input type="radio" class="form-check-input" formControlName="gender" value="MALE" checked>Male
+        <input type="radio" class="form-check-input" formControlName="gender" value="MALE" checked>Male(पुरुष)
       </label>
     </div>
     <div class="form-check-inline">
       <label class="form-check-label">
-        <input type="radio" class="form-check-input" formControlName="gender" value="FEMALE">Female
+        <input type="radio" class="form-check-input" formControlName="gender" value="FEMALE">Female(महिला)
       </label>
     </div>
   </div>
 
   <div class="form-group" class="col-sm-6 pb-3">
-    <label for="pfather">Father:</label>
+    <label for="pfather">Father(पिता):</label>
     <input type="text" class="form-control" placeholder="Enter father's name" formControlName="father">
     <p style="color: #721c24;" *ngIf="personForm.controls['father'].hasError('maxlength')">
         Father's name can not exceed 50 characters
     </p>  
   </div>
   <div class="form-group" class="col-sm-6 pb-3">
-    <label for="phusband">Husband:</label>
+    <label for="phusband">Husband(पति):</label>
     <input type="text" class="form-control" placeholder="Enter husband's name" formControlName="husband">
     <p style="color: #721c24;" *ngIf="personForm.controls['caste'].hasError('maxlength')">
         Husband's name can not exceed 50 characters
     </p>  
   </div>
   <div class="form-group" class="col-sm-6 pb-3">
-    <label for="pcaste">Caste:</label>
+    <label for="pcaste">Caste(जाति):</label>
     <input type="text" class="form-control" placeholder="Enter caste" formControlName="caste">
     <p style="color: #721c24;" *ngIf="personForm.controls['caste'].hasError('required')">
         Please enter a caste

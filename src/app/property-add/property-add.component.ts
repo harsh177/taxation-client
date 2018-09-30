@@ -109,7 +109,7 @@ export class PropertyAddComponent implements OnInit {
       active:[true],
       transferredToSamagraId:[null],
       transferred:[false],
-      propertyNumber:["",[Validators.required,Validators.minLength(2),Validators.maxLength(50)]],
+      propertyNumber:["",[Validators.required,Validators.minLength(1),Validators.maxLength(50)]],
       subHolder:["",[Validators.required,Validators.minLength(2),Validators.maxLength(50)]],
       area:["--Select--"],
       city:["",[Validators.required,Validators.minLength(2),Validators.maxLength(50)]],

@@ -25,14 +25,14 @@ type = "ball-clip-rotate"
                         <input type="radio" class="form-check-input" name="optradio" [(ngModel)]="searchBy" value="UNIQUE">Unique Id
                       </label>
                     </div>
-                  <input type="text" class="form-control mb-2 mr-sm-2"  name="searchValue" [(ngModel)]="searchValue" placeholder="Search">
+                  <input type="text" class="form-control mb-2 mr-sm-2"  name="searchValue" [(ngModel)]="searchValue" placeholder="Search(खोज)">
                   <button type="button" class="btn btn-success mb-2" (click)="getDetailsByPhoneOrSamagraOrUniqueId()">Search Property</button>
-                  <button type="button" class="btn btn-success mb-2" style="margin-left: 200px;" (click)="navigateToAddProperty()">Add Property</button>
+                  <button type="button" class="btn btn-success mb-2" style="margin-left: 200px;" (click)="navigateToAddProperty()">Add Property(संपत्ति जोड़ें)</button>
             </form>
         
             <div *ngIf="error" class="card bg-light text-dark text-center" style="margin-top: 10px; width: 100%;">
               <div class="card-body">
-                <h3><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> No Property(s) found/present</h3>
+                <h3><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> No Property(s) found (संपत्ति नहीं मिली)</h3>
               </div>
             </div>
             <div  style="width: 100%;" *ngIf="properties.length>0">

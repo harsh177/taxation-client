@@ -25,8 +25,8 @@ type = "ball-clip-rotate"
     <button type="submit" (click)='getDetailsByPhoneOrSamagra()'    style="margin-top: -10px;" class="btn btn-success">Search Member</button>
 </form>
   
-  <div style="margin-top: 10px" *ngIf="personAndPropertyList.person==null" class="alert alert-danger">
-      <strong>Error!</strong> Member with this Samagra Id / Phone not found.
+  <div style="margin-top: 10px" *ngIf="personAndPropertyList.person==null || personAndPropertyList.person==undefined" class="alert alert-danger">
+      <strong>Error!</strong> Family with this Samagra Id / Phone not found.(फोन / समग्रा गलत है)
   </div>
   </div>
 
@@ -42,20 +42,20 @@ type = "ball-clip-rotate"
   <form [formGroup]="propertyForm">
       <div class="form-row mt-4">
     <div class="col-sm-6 pb-3" >
-      <label for="pnumber">Property Number:</label>
+      <label for="pnumber">Property Number(संप्तति संख्या):</label>
       <input type="text" class="form-control" formControlName="propertyNumber">
       <p style="color: #721c24;" *ngIf="propertyForm.controls['propertyNumber'].hasError('required')">
           Please enter property number
         </p>
         <p style="color: #721c24;" *ngIf="propertyForm.controls['propertyNumber'].hasError('minlength')">
-            Please enter at least 2 characters
+            Please enter at least 1 characters
         </p>
         <p style="color: #721c24;" *ngIf="propertyForm.controls['propertyNumber'].hasError('maxlength')">
             Property Number can not exceed 50 characters
         </p>    
     </div>
     <div class="col-sm-6 pb-3">
-      <label for="pnumber">Property Subholder:</label>
+      <label for="pnumber">Property Subholder(संपत्ति उप धारक):</label>
       <input type="text" class="form-control" formControlName="subHolder">
       <p style="color: #721c24;" *ngIf="propertyForm.controls['subHolder'].hasError('required')">
           Please enter property subHolder
@@ -81,7 +81,7 @@ type = "ball-clip-rotate"
             Area can not exceed 50 characters
         </p> -->
         <div class="form-group">
-            <label for="parea">Area:&nbsp;</label>
+            <label for="parea">Area(क्षेत्र):&nbsp;</label>
             <select class="form-control"  formControlName="area">
                 <option [value]="a" *ngFor="let a of areas">{{a}}</option>
             </select>
@@ -91,7 +91,7 @@ type = "ball-clip-rotate"
         </p>
     </div>
     <div class="col-sm-6 pb-3">
-      <label for="pcity">City:</label>
+      <label for="pcity">City(शहर):</label>
       <input type="text" class="form-control" formControlName="city">
       <p style="color: #721c24;" *ngIf="propertyForm.controls['city'].hasError('required')">
           Please enter city
@@ -104,7 +104,7 @@ type = "ball-clip-rotate"
         </p>
     </div>
     <div class="col-sm-6 pb-3">
-      <label for="ppincode">Pincode:</label>
+      <label for="ppincode">Pincode(पिन कोड):</label>
       <input type="text" class="form-control" formControlName="pincode">
       <p style="color: #721c24;" *ngIf="propertyForm.controls['pincode'].hasError('required')">
           Please enter pincode
@@ -114,27 +114,27 @@ type = "ball-clip-rotate"
         </p>
     </div>
     <div class="col-sm-6 pb-3">
-      <label>Is residential:</label><br>
+      <label>Is residential(आवासीय है?):</label><br>
       <div class="form-check-inline">
         <label class="form-check-label">
-          <input type="radio" class="form-check-input" (change)="onResidentialYes($event)" formControlName="residential" value="YES" checked>YES
+          <input type="radio" class="form-check-input" (change)="onResidentialYes($event)" formControlName="residential" value="YES" checked>YES(हाँ)
         </label>
       </div>
       <div class="form-check-inline">
         <label class="form-check-label">
-          <input type="radio" class="form-check-input" (change)="onResidentialNo($event)" formControlName="residential" value="NO" >NO
+          <input type="radio" class="form-check-input" (change)="onResidentialNo($event)" formControlName="residential" value="NO" >NO(नहीं)
         </label>
       </div>
     </div>
     <div class="col-sm-6 pb-3">
-      <label for="presidentname">Resident Name:</label>
+      <label for="presidentname">Resident Name(निवासी का नाम):</label>
       <input type="text" class="form-control"  formControlName="residentName">
         <p style="color: #721c24;" *ngIf="propertyForm.controls['residentName'].hasError('maxlength')">
             Resident Name can not exceed 50 characters
         </p>    
     </div>
     <div class="col-sm-6 pb-3">
-      <label>Property Usage:</label><br>
+      <label>Property Usage(संपत्ति का उपयोग):</label><br>
       <div *ngFor="let propertyUsage of propertyUsages" class="form-check-inline">
         <label class="form-check-label">
           <input type="checkbox" class="form-check-input" [checked]="propertyUsage.checked" (change)="onUsageChange(propertyUsage.propertyUsageId, $event.target.checked)"  name="pu" [value]="propertyUsage.propertyUsageId">{{propertyUsage.name}}
@@ -145,7 +145,7 @@ type = "ball-clip-rotate"
       </p>
     </div>
     <div class="col-sm-6 pb-3">
-      <label>Property Type:</label><br>
+      <label>Property Type(संपत्ति का प्रकार):</label><br>
       <div *ngFor="let propertyType of propertyTypes" class="form-check-inline">
         <label class="form-check-label">
           <input type="checkbox" class="form-check-input"  [checked]="propertyType.checked" (change)="onTypeChange(propertyType.propertyTypeId, $event.target.checked)" name="pt" [value]="propertyType.propertyTypeId">{{propertyType.name}}
@@ -156,7 +156,7 @@ type = "ball-clip-rotate"
       </p>
     </div>
     <div class="col-sm-6 pb-3">
-      <label for="plength">Length:</label>
+      <label for="plength">Length(लंबाई):</label>
       <input type="text" class="form-control" formControlName="length">
       <p style="color: #721c24;" *ngIf="propertyForm.controls['length'].hasError('required')">
           Please enter length
@@ -169,7 +169,7 @@ type = "ball-clip-rotate"
         </p>
     </div>
     <div class="col-sm-6 pb-3">
-      <label for="pwidth">Width:</label>
+      <label for="pwidth">Width (चौड़ाई):</label>
       <input type="text" class="form-control" formControlName="width">
       <p style="color: #721c24;" *ngIf="propertyForm.controls['width'].hasError('required')">
           Please enter width
@@ -182,62 +182,62 @@ type = "ball-clip-rotate"
         </p>
     </div>
     <div class="col-sm-6 pb-3">
-      <label for="peastlandmark">East landmark:</label>
+      <label for="peastlandmark">East landmark(पूर्व सीमा चिन्ह):</label>
       <input type="text" class="form-control" formControlName="eastLandmark">
       <p style="color: #721c24;" *ngIf="propertyForm.controls['eastLandmark'].hasError('maxlength')">
           East landmark can not exceed 200 characters
       </p>
     </div>
     <div class="col-sm-6 pb-3">
-      <label for="pwestlandmark">West landmark:</label>
+      <label for="pwestlandmark">West landmark(पश्चिम सीमा चिन्ह):</label>
       <input type="text" class="form-control" formControlName="westLandmark">
       <p style="color: #721c24;" *ngIf="propertyForm.controls['westLandmark'].hasError('maxlength')">
           West landmark can not exceed 200 characters
       </p>
     </div>
     <div class="col-sm-6 pb-3">
-      <label for="pnorthlandmark">North landmark:</label>
+      <label for="pnorthlandmark">North landmark(उत्तर सीमा चिन्ह):</label>
       <input type="text" class="form-control" formControlName="northLandmark">
       <p style="color: #721c24;" *ngIf="propertyForm.controls['northLandmark'].hasError('maxlength')">
           North landmark can not exceed 200 characters
       </p>
     </div>
     <div class="col-sm-6 pb-3">
-      <label for="psouthlandmark">South landmark:</label>
+      <label for="psouthlandmark">South landmark(दक्षिण सीमा चिन्ह):</label>
       <input type="text" class="form-control" formControlName="southLandmark">
       <p style="color: #721c24;" *ngIf="propertyForm.controls['southLandmark'].hasError('maxlength')">
           South landmark can not exceed 200 characters
       </p>
     </div>
     <div class="col-sm-6 pb-3">
-      <label>Is water connected:</label><br>
+      <label>Is water connected (पानी जुड़ा हुआ है?):</label><br>
       <div class="form-check-inline">
         <label class="form-check-label">
-          <input type="radio" class="form-check-input" formControlName="waterConnected" value="YES">YES
+          <input type="radio" class="form-check-input" formControlName="waterConnected" value="YES">YES(हाँ)
         </label>
       </div>
       <div class="form-check-inline">
         <label class="form-check-label">
-          <input type="radio" class="form-check-input" formControlName="waterConnected" value="NO">NO
+          <input type="radio" class="form-check-input" formControlName="waterConnected" value="NO">NO(नहीं)
         </label>
       </div>
     </div>
     <div class="col-sm-6 pb-3">
-        <label for="psharedwalldesc">Shared wall description:</label>
+        <label for="psharedwalldesc">Shared wall description(साझा दीवार का विवरण):</label>
         <textarea rows="4" class="form-control" formControlName="sharedWallDescription"></textarea>
         <p style="color: #721c24;" *ngIf="propertyForm.controls['sharedWallDescription'].hasError('maxlength')">
             Shared wall description can not exceed 200 characters
         </p>
       </div>  
     <div class="col-sm-6 pb-3">
-      <label for="pwaterbilldescription">Water bill description:</label>
+      <label for="pwaterbilldescription">Water bill description(पानी बिल का विवरण):</label>
       <textarea class="form-control" rows="4" formControlName="waterBillDescription"></textarea>
       <p style="color: #721c24;" *ngIf="propertyForm.controls['waterBillDescription'].hasError('maxlength')">
           water bill description can not exceed 200 characters
       </p>
     </div>
     <div class="col-sm-6 pb-3">
-      <label for="potherdescription">Other description:</label>
+      <label for="potherdescription">Other description(अन्य विवरण):</label>
       <textarea class="form-control" rows="4" formControlName="otherDescription"></textarea>
       <p style="color: #721c24;" *ngIf="propertyForm.controls['otherDescription'].hasError('maxlength')">
           Other description can not exceed 200 characters
@@ -245,7 +245,7 @@ type = "ball-clip-rotate"
     </div>
     <div class="col-sm-6 pb-3">
       <div  *ngIf="action=='false'">
-        <label  *ngIf="!propertyObj.documents.length==0">Uploaded Files :</label><br>
+        <label  *ngIf="!propertyObj.documents.length==0">Uploaded Files(दस्तावेज अपलोड करें) :</label><br>
         <p  *ngFor="let doc of propertyObj.documents"><u>{{doc.name}}</u>&nbsp;<a  style="cursor: pointer;"  (click)="documentDelete(doc.documentId)"><i class="fa fa-trash"></i></a></p>
       </div>
             <label for="potherdescription">Upload File:</label><br>
@@ -253,7 +253,7 @@ type = "ball-clip-rotate"
     </div>    
 
     </div>
-    <button type="submit" [disabled]="!propertyForm.valid" (click)="saveProperty(personAndPropertyList.person.samagraId)" class="btn btn-success">Save</button>
+    <button type="submit" [disabled]="!propertyForm.valid" (click)="saveProperty(personAndPropertyList.person.samagraId)" class="btn btn-success">Save(दर्ज करें)</button>
   </form>
 </div>
   </div>

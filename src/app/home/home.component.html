@@ -4,7 +4,7 @@
 <div class="container"  style="min-height: 550px">
   
         <!-- Page Heading -->
-        <h1 class="my-4">Dashboard
+        <h1 class="my-4">Welcome,
           <small>{{currentUser.panchayat.name}}</small>
         </h1>
         
@@ -12,22 +12,22 @@
                 <div class="card-columns">
                         <div class="card bg-light" (click)="navigateToMember()" style="cursor: pointer">
                           <div class="card-body">
-                            <p class="card-text"><i class="fa fa-address-card"></i> Samagra Members</p>
+                            <p class="card-text"><i class="fa fa-address-card"></i> Samagra Families (समग्रा परिवार) </p>
                           </div>
                         </div>
                         <div class="card bg-light">
                           <div class="card-body">
-                            <p class="card-text" (click)="navigateToProperties()" style="cursor: pointer"><i class="fa fa-building"></i> Properties</p>
+                            <p class="card-text" (click)="navigateToProperties()" style="cursor: pointer"><i class="fa fa-building"></i> Properties (संपत्ति)</p>
                           </div>
                         </div>
                         <div class="card bg-light">
                           <div class="card-body">
-                            <p class="card-text" (click)="navigateToPayTax()" style="cursor: pointer"><i class="fa fa-money"></i> Pay Taxes</p>
+                            <p class="card-text" (click)="navigateToPayTax()" style="cursor: pointer"><i class="fa fa-money"></i> Pay Taxes (कर का भुगतान करें)</p>
                           </div>
                         </div> 
                         <div class="card bg-light">
                           <div class="card-body">
-                            <p class="card-text" (click)="navigateToReports()" style="cursor: pointer"><i class="fa fa-line-chart"></i> Tax Reports</p>
+                            <p class="card-text" (click)="navigateToReports()" style="cursor: pointer"><i class="fa fa-line-chart"></i> Tax Reports (कर रिपोर्ट)</p>
                           </div>
                         </div>
                  </div>
