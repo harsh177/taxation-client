@@ -4,19 +4,35 @@
 <div class="container">
     <h4>Pay Tax</h4>
     <hr>
-    <form class="form-inline">
+    <!-- <form class="form-inline">
       <label for="samagra">Samagra Id&nbsp;</label>
       <input type="text" class="form-control" [(ngModel)]="phoneOrSamagra.samagraId" name="samagraId" id="samagra" maxlength="8">
       <label for="phn">&nbsp;Or Phone &nbsp;</label>
       <input type="text" class="form-control" [(ngModel)]="phoneOrSamagra.phoneNumber" name="phn" id="phn">
       &nbsp;&nbsp;
       <button type="submit" (click)='getDetailsByPhoneOrSamagra()' class="btn btn-success">Search Member</button>
-    </form>
+    </form> -->
+    <form class="form-inline" role="form">
+      <label class="mb-2 mr-sm-2">Search By:</label>
+      <div class="form-check  mb-2 mr-sm-2">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="optradio"  [(ngModel)]="searchBy" value="SAMAGRA" checked>Samagra Id
+              </label>
+      </div>
+      <div class="form-check  mb-2 mr-sm-2">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="optradio" [(ngModel)]="searchBy" value="PHONE">Phone
+              </label>
+      </div>
+      <input type="text" class="form-control mb-2 mr-sm-2" name="searchValue" [(ngModel)]="searchValue" placeholder="Search">
+      <button type="submit" (click)='getDetailsByPhoneOrSamagra()'    style="margin-top: -10px;" class="btn btn-success">Search Member</button>
+  </form>
+  
     <div style="height: 10px;"></div>
-    <div style="margin-top: 10px" *ngIf="personAndPropertyList.person==null" class="alert alert-danger">
+    <div style="margin-top: 10px" *ngIf="searchPersonError" class="alert alert-danger">
         <strong>Error!</strong> Member with this Samagra Id / Phone not found.
     </div>
-    <div *ngIf="personAndPropertyList.person!=null && personAndPropertyList.person.name!=undefined" class="card">
+    <div *ngIf="!searchPersonError && personAndPropertyList.person!=null && personAndPropertyList.person.name!=undefined" class="card">
         <div class="card-header">Member Details</div>
         <div class="card-body">
           <table class="table">
@@ -45,12 +61,15 @@
                           </div>
                           <div class="row" style="margin-bottom:20px">
                             <div class="col"><b>Prperty Number </b>: {{property.propertyNumber}}</div>
-                            
                             <div class="col"><b>Area </b>: {{property.area}}</div>
-                            <div class="col"><b>City </b>: {{property.city}}</div>
+                            <div class="col"><b>Village </b>: {{property.village}}</div>
                           </div>
                           <div class="row" style="margin-bottom:20px">
-                                
+                            <div class="col"><b>District </b>: {{property.district}}</div>
+                            <div class="col"></div>
+                            <div class="col"><b>Tehsil</b>: {{property.tehsil}}</div>
+                          </div>
+                          <div class="row" style="margin-bottom:20px">
                                 <div class="col"><b>Pincode </b>: {{property.pincode}}</div>
                                 <div class="col"><b>Is water Connected </b>: {{property.waterConnected==true ? 'YES' : 'NO'}}</div>
                                 <div class="col"><b>Is Residential </b>: {{property.isResidential==true ? 'YES' : 'NO'}}</div>

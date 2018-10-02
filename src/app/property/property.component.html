@@ -49,6 +49,7 @@ type = "ball-clip-rotate"
                     <th>Unique Id</th>
                     <th>samagra Id</th>
                     <th>Actions</th>
+                    <th>Remarks</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -59,11 +60,11 @@ type = "ball-clip-rotate"
                     <td>{{property.city}}</td>
                     <td>{{property.customUniqueId}}</td>
                     <td>{{property.samagraId}}</td>
-                    <td *ngIf="!property.transferred"><a  style="cursor: pointer;" (click)="op(property.propertyId,property.propertyId)" data-toggle="modal" data-target="#{{property.propertyId}}"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;<a style="cursor: pointer;" (click)="edit(property)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;<a style="cursor: pointer;" (click)="delete(property.propertyId)"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;<a  style="cursor: pointer;" (click)="op('transfer'+property.propertyId,property.propertyId)" data-toggle="modal" data-target="#{{'transfer'+property.propertyId}}"><i class="fa fa-share"></i></a>&nbsp;&nbsp;<a  style="cursor: pointer;"  (click)="navigateToTaxDetails(property.propertyId)"><i class="fa fa-money"></i></a>
+                    <td><a  style="cursor: pointer;" (click)="op(property.propertyId,property.propertyId,property.samagraId)" data-toggle="modal" data-target="#{{property.propertyId}}"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;<a style="cursor: pointer;" (click)="edit(property)" *ngIf="!property.transferred"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;<a style="cursor: pointer;" (click)="delete(property.propertyId)" *ngIf="!property.transferred"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;<a  style="cursor: pointer;" (click)="op('transfer'+property.propertyId,property.propertyId,property.samagraId)" *ngIf="!property.transferred" data-toggle="modal" data-target="#{{'transfer'+property.propertyId}}"><i class="fa fa-share"></i></a>&nbsp;&nbsp;<a  style="cursor: pointer;" *ngIf="!property.transferred" (click)="navigateToTaxDetails(property.propertyId)"><i class="fa fa-money"></i></a>
                       <div class="modal fade" [id]="property.propertyId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
-                              <div class="modal-header">
+                              <div class="modal-header" style="background: darkkhaki;">
                                 <h5 class="modal-title" id="exampleModalLabel">Property Details</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                   <span aria-hidden="true">&times;</span>
@@ -77,8 +78,13 @@ type = "ball-clip-rotate"
                                     </div>
                                     <div class="row" style="margin-bottom:20px">
                                       <div class="col"><b>Prperty Number </b>: {{property.propertyNumber}}</div>
-                                      <div class="col"></div>
                                       <div class="col"><b>Area </b>: {{property.area}}</div>
+                                      <div class="col"><b>Village</b>: {{property.village}}</div>
+                                    </div>
+                                    <div class="row" style="margin-bottom:20px">
+                                      <div class="col"><b>District </b>: {{property.district}}</div>
+                                      <div class="col"></div>
+                                      <div class="col"><b>Tehsil</b>: {{property.tehsil}}</div>
                                     </div>
                                     <div class="row" style="margin-bottom:20px">
                                           <div class="col"><b>City </b>: {{property.city}}</div>
@@ -125,7 +131,7 @@ type = "ball-clip-rotate"
                         <div class="modal fade" id="{{'transfer'+property.propertyId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
-                                <div class="modal-header">
+                                <div class="modal-header" style="background: darkkhaki;">
                                   <h5 class="modal-title" id="exampleModalLabel">Transfer Property</h5>
                                   <button type="button" class="close"  (click)="cancel()" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
@@ -134,18 +140,18 @@ type = "ball-clip-rotate"
                                 <div class="modal-body">
                                     <div  class="row">
                                         <div  class="col">  <label>Transfer to:</label></div>
-                                        <div  class="col">  <input type="text"  name="transferToSamagraId" [(ngModel)]="transferObj.transferToSamagraId" placeholder="Samagra Id" class="form-control">
-                                          <p  class="text-danger" *ngIf="validateSamagraError">Invalid Samagra Id</p>
+                                        <div  class="col">  <input type="text"  name="transferToSamagraId" [(ngModel)]="transferObj.transferToSamagraId" placeholder="Samagra Id" maxlength="8" class="form-control">
+                                          <p  class="text-danger" *ngIf="validateSamagraError">{{validateSamagraErrorMessage}}</p>
                                         </div>
                                         <div  class="col">  <button (click)="validateSamagra()" class="btn btn-success">Validate</button></div>    
                                     </div>
                                     <div *ngIf="transferFormVisiblity" class="row" style="margin-top: 10px">
                                       <div  class="col">Subholder Name</div>
-                                      <div  class="col"><input type="text" name="newSubHolder" [(ngModel)]="transferObj.newSubHolder" placeholder="Enter sub holder name" class="form-control"></div>
+                                      <div  class="col"><input type="text" name="newSubHolder" [(ngModel)]="transferObj.newSubHolder" placeholder="Enter sub holder name" maxlength="50" class="form-control"></div>
                                     </div>
                                     <div  *ngIf="transferFormVisiblity" class="row" style="margin-top: 10px">
                                         <div  class="col">Resident Name</div>
-                                        <div  class="col"><input type="text"   name="residentName" [(ngModel)]="transferObj.residentName" placeholder="Enter  resident name" class="form-control"></div>
+                                        <div  class="col"><input type="text"   name="residentName" [(ngModel)]="transferObj.residentName" placeholder="Enter  resident name" maxlength="50" class="form-control"></div>
                                     </div>
                                     <div *ngIf="transferFormVisiblity" class="row" style="margin-top: 10px">
                                           <div  class="col"><input type="file" (change)="fileEvent($event.target.files)" multiple></div>
@@ -160,7 +166,7 @@ type = "ball-clip-rotate"
                             </div>
                           </div>
                     </td>
-                    <td *ngIf="property.transferred">Transfered To: {{property.transferredToSamagraId}}</td>
+                    <td><label *ngIf="property.transferred">Transfered To: {{property.transferredToSamagraId}}</label></td>
                   </tr>
                 </tbody>
               </table>

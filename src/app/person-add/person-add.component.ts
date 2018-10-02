@@ -24,6 +24,8 @@ export class PersonAddComponent implements OnInit {
 
   personForm:FormGroup;
 
+  casteList=["GENERAL","OBC","SC","ST","OTHER"];
+
   action;
 
   constructor(private spinner: NgxSpinnerService,private route:ActivatedRoute,private _formBuilder:FormBuilder,private personService:PersonService,private toastr: ToastrService,private router:Router) { }
@@ -50,7 +52,7 @@ export class PersonAddComponent implements OnInit {
       father:["",[Validators.maxLength(50)]],
       samagraId:[null,[Validators.required,Validators.pattern("^\\d{8}$")]],
       phone:[null,[Validators.required,Validators.pattern("^\\d{10}$")]],
-      caste:["",[Validators.required,Validators.minLength(2),Validators.maxLength(50)]]
+      caste:["GENERAL"]
     });
   }
 

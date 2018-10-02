@@ -32,7 +32,9 @@ export class PropertyAddComponent implements OnInit {
     propertyNumber:"",
     subHolder:"",
     area:"",
-    city:"",
+    village:"",
+    district:"",
+    tehsil:"",
     pincode:"",
     samagraId:"",
     isResidential:true,
@@ -112,7 +114,9 @@ export class PropertyAddComponent implements OnInit {
       propertyNumber:["",[Validators.required,Validators.minLength(1),Validators.maxLength(50)]],
       subHolder:["",[Validators.required,Validators.minLength(2),Validators.maxLength(50)]],
       area:["--Select--"],
-      city:["",[Validators.required,Validators.minLength(2),Validators.maxLength(50)]],
+      village:["",[Validators.required,Validators.minLength(2),Validators.maxLength(50)]],
+      district:["",[Validators.required,Validators.minLength(2),Validators.maxLength(50)]],
+      tehsil:["",[Validators.required,Validators.minLength(2),Validators.maxLength(50)]],
       pincode:["",[Validators.required,Validators.pattern('^[1-9][0-9]{5}$')]],
       residential:["YES"],
       residentName:[{value:"",disabled:false},[Validators.maxLength(50)]],
@@ -276,11 +280,15 @@ export class PropertyAddComponent implements OnInit {
       this.spinner.hide();
       this.personAndPropertyList = <any>data.data;
       console.log(this.personAndPropertyList);
+      this.searchPersonError=false;
     },error=>{
       this.spinner.hide();
+      this.searchPersonError=true;
       console.log(error);
     });
   }
+
+  searchPersonError=false;
 
   resetData(){
     
@@ -289,7 +297,9 @@ export class PropertyAddComponent implements OnInit {
       propertyNumber:"",
       subHolder:"",
       area:"",
-      city:"",
+      village:"",
+      district:"",
+      tehsil:"",  
       pincode:"",
       samagraId:"",
       isResidential:true,

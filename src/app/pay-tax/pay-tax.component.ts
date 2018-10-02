@@ -27,11 +27,29 @@ export class PayTaxComponent implements OnInit {
   ngOnInit() {
   }
 
+  searchBy="SAMAGRA";
+  searchValue = "";
+  searchPersonError=false;
+
   getDetailsByPhoneOrSamagra(){
+    if(this.searchValue.trim().length==0)return;
+    if(this.searchBy == "SAMAGRA"){
+      this.phoneOrSamagra={
+        phoneNumber:"",
+        samagraId:this.searchValue
+      };
+    }else{
+      this.phoneOrSamagra={
+        phoneNumber:this.searchValue,
+        samagraId:""
+      };
+    }
     this.propertyService.getPropertyByPhoneOrSamagra(this.phoneOrSamagra).subscribe(data=>{
+      this.searchPersonError=false;
       this.personAndPropertyList = <any>data.data;
       console.log(this.personAndPropertyList);
     },error=>{
+      this.searchPersonError=true;
       console.log(error);
     });
   }

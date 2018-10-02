@@ -21,7 +21,7 @@
     <tbody>
       <tr *ngFor="let taxDetail of taxDetails  | taxfilter:filter | paginate: config">
         <td *ngIf="taxDetail.lastTaxPaidOn==null">N/A</td><td *ngIf="taxDetail.lastTaxPaidOn!=null">{{taxDetail.lastTaxPaidOn | date}}</td>
-        <td>{{taxDetail.amount}}</td>
+        <td>{{taxDetail.amount}} <i class="fa fa-inr" aria-hidden="true"></i></td>
         <td>{{taxDetail.currentTaxPaymentStatus}}</td>
         <td *ngIf="taxDetail.currentTaxPaymentStatus!='DUE'"><button class="btn btn-success" (click)="viewReciept(taxDetail.taxDetailId)">View Reciept</button></td><td *ngIf="taxDetail.currentTaxPaymentStatus=='DUE'"><button (click)="payTax(taxDetail.taxDetailId)" class="btn btn-primary">Pay Tax</button></td>
       </tr>

@@ -13,7 +13,7 @@ declare var   $:any;
   styleUrls: ['./property.component.css']
 })
 export class PropertyComponent implements OnInit {
-
+  validateSamagraErrorMessage="Invalid Samagra Id";
   action = "";
   searchBy  = "SAMAGRA";
   properties:any = [];
@@ -38,8 +38,10 @@ export class PropertyComponent implements OnInit {
   };
 
   transferFormVisiblity=false;
+  currentSelectedSamagraId="";
   ctId = "";
-  op(v,id){
+  op(v,id,sam){
+    this.currentSelectedSamagraId=sam;
     this.ctId = "";
     $('#'+v).modal('show');
     if(v.toString().indexOf("transfer")!=-1){
@@ -109,13 +111,22 @@ export class PropertyComponent implements OnInit {
   
   validateSamagra(){
     this.spinner.show();
-    this.personService.getPersonBySamagraId(this.transferObj.transferToSamagraId).subscribe(data=>{
+    this.personService.getPersonBySamagraId(this.transferObj.transferToSamagraId).subscribe(d=>{
       this.spinner.hide();
+      let data=<any>d;
       console.log(data);
       if(!data.status){
+        this.validateSamagraErrorMessage="Invalid Samagra Id";
         this.validateSamagraError=true;
         this.transferFormVisiblity=false;
       }else{
+        if(this.currentSelectedSamagraId==data.data.samagraId){
+          this.validateSamagraErrorMessage="Property can not be transfered to itself";
+          this.validateSamagraError=true;
+          this.transferFormVisiblity=false;
+          return;
+        }
+        this.validateSamagraErrorMessage="";
         this.validateSamagraError=false;
         this.transferFormVisiblity=true;
       }
@@ -203,6 +214,7 @@ export class PropertyComponent implements OnInit {
       else  this.error=false;
       console.log(this.properties);
     },error=>{
+      this.properties = [];
       this.spinner.hide();
       this.error=true;
       console.log(error);

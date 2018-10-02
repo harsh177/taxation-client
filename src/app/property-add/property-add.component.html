@@ -25,12 +25,12 @@ type = "ball-clip-rotate"
     <button type="submit" (click)='getDetailsByPhoneOrSamagra()'    style="margin-top: -10px;" class="btn btn-success">Search Member</button>
 </form>
   
-  <div style="margin-top: 10px" *ngIf="personAndPropertyList.person==null || personAndPropertyList.person==undefined" class="alert alert-danger">
+  <div style="margin-top: 10px" *ngIf="searchPersonError" class="alert alert-danger">
       <strong>Error!</strong> Family with this Samagra Id / Phone not found.(फोन / समग्रा गलत है)
   </div>
   </div>
 
-  <div  class="card" *ngIf="(personAndPropertyList.person!=null && personAndPropertyList.person.name!=undefined) || action=='false'">
+  <div  class="card" *ngIf="(!searchPersonError && personAndPropertyList.person!=null && personAndPropertyList.person.name!=undefined) || action=='false'">
     <div class="card-header"  *ngIf="action=='true'">Member Details</div>
     <div class="card-body">
       <div  class="row" *ngIf="action=='true'">
@@ -90,7 +90,7 @@ type = "ball-clip-rotate"
             Please select area
         </p>
     </div>
-    <div class="col-sm-6 pb-3">
+    <!-- <div class="col-sm-6 pb-3">
       <label for="pcity">City(शहर):</label>
       <input type="text" class="form-control" formControlName="city">
       <p style="color: #721c24;" *ngIf="propertyForm.controls['city'].hasError('required')">
@@ -101,6 +101,45 @@ type = "ball-clip-rotate"
         </p>
         <p style="color: #721c24;" *ngIf="propertyForm.controls['city'].hasError('maxlength')">
             City can not exceed 50 characters
+        </p>
+    </div> -->
+    <div class="col-sm-6 pb-3">
+      <label for="pcity">Village(गाँव):</label>
+      <input type="text" class="form-control" formControlName="village">
+      <p style="color: #721c24;" *ngIf="propertyForm.controls['village'].hasError('required')">
+          Please enter village
+        </p>
+        <p style="color: #721c24;" *ngIf="propertyForm.controls['village'].hasError('minlength')">
+            Please enter at least 2 characters
+        </p>
+        <p style="color: #721c24;" *ngIf="propertyForm.controls['village'].hasError('maxlength')">
+            Village can not exceed 50 characters
+        </p>
+    </div>
+    <div class="col-sm-6 pb-3">
+      <label for="pcity">District(जिला):</label>
+      <input type="text" class="form-control" formControlName="district">
+      <p style="color: #721c24;" *ngIf="propertyForm.controls['district'].hasError('required')">
+          Please enter district
+        </p>
+        <p style="color: #721c24;" *ngIf="propertyForm.controls['district'].hasError('minlength')">
+            Please enter at least 2 characters
+        </p>
+        <p style="color: #721c24;" *ngIf="propertyForm.controls['district'].hasError('maxlength')">
+          District can not exceed 50 characters
+        </p>
+    </div>
+    <div class="col-sm-6 pb-3">
+      <label for="pcity">Tehsil(तहसील):</label>
+      <input type="text" class="form-control" formControlName="tehsil">
+      <p style="color: #721c24;" *ngIf="propertyForm.controls['tehsil'].hasError('required')">
+          Please enter tehsil
+        </p>
+        <p style="color: #721c24;" *ngIf="propertyForm.controls['tehsil'].hasError('minlength')">
+            Please enter at least 2 characters
+        </p>
+        <p style="color: #721c24;" *ngIf="propertyForm.controls['tehsil'].hasError('maxlength')">
+          Tehsil can not exceed 50 characters
         </p>
     </div>
     <div class="col-sm-6 pb-3">
