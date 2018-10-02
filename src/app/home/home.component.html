@@ -4,7 +4,7 @@
 <div class="container"  style="min-height: 550px">
   
         <!-- Page Heading -->
-        <h1 class="my-4">Welcome,
+        <h1  style="color: #721c24" class="my-4">Welcome,
           <small>{{currentUser.panchayat.name}}</small>
         </h1>
         
@@ -12,24 +12,30 @@
                 <div class="card-columns">
                         <div class="card bg-light" (click)="navigateToMember()" style="cursor: pointer">
                           <div class="card-body">
-                            <p class="card-text"><i class="fa fa-address-card"></i> Samagra Families (समग्रा परिवार) </p>
+                            <p style="color: #721c24" class="card-text">1) Samagra Families (समग्रा परिवार)&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-address-card"></i> </p>
                           </div>
                         </div>
-                        <div class="card bg-light">
+                        <div class="card bg-light" style="color: #721c24">
                           <div class="card-body">
-                            <p class="card-text" (click)="navigateToProperties()" style="cursor: pointer"><i class="fa fa-building"></i> Properties (संपत्ति)</p>
+                            <p class="card-text"  (click)="navigateToReports()" style="cursor: pointer">4) Tax Reports (कर रिपोर्ट)&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-line-chart"></i></p>
                           </div>
                         </div>
-                        <div class="card bg-light">
+                        <div class="card bg-light" style="color: #721c24">
                           <div class="card-body">
-                            <p class="card-text" (click)="navigateToPayTax()" style="cursor: pointer"><i class="fa fa-money"></i> Pay Taxes (कर का भुगतान करें)</p>
-                          </div>
-                        </div> 
-                        <div class="card bg-light">
-                          <div class="card-body">
-                            <p class="card-text" (click)="navigateToReports()" style="cursor: pointer"><i class="fa fa-line-chart"></i> Tax Reports (कर रिपोर्ट)</p>
+                            <p class="card-text" (click)="navigateToProperties()" style="cursor: pointer">2) Properties (संपत्ति)&nbsp;&nbsp;&nbsp;&nbsp; <i class="fa fa-building"></i></p>
                           </div>
                         </div>
+                        <div class="card bg-light" style="color: #721c24"  >
+                          <div class="card-body">
+                            <p class="card-text"  (click)="navigateToReports()" style="cursor: pointer">5) Administrator (प्रशासक)&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-user-circle "></i></p>
+                          </div>
+                        </div>
+                        <div class="card bg-light"  style="color: #721c24">
+                          <div class="card-body">
+                            <p class="card-text" (click)="navigateToPayTax()" style="cursor: pointer">3) Pay Taxes (कर का भुगतान करें)&nbsp;&nbsp;&nbsp;&nbsp; <i class="fa fa-money"></i></p>
+                          </div>
+                        </div>
+                        
                  </div>
         </div>
       </div>

@@ -33,4 +33,8 @@ export class HomeComponent implements OnInit {
   navigateToPayTax(){
     this.router.navigate(['/paytax']);
   }
+
+  navigateToAdmin(){
+    this.router.navigate(['/admin']);
+  }
 }
