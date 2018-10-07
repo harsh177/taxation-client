@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { Router } from '../../../node_modules/@angular/router';
 import {PaginationInstance} from '../../../node_modules/ngx-pagination/dist/ngx-pagination.module';
+declare var   $:any;
 
 @Component({
   selector: 'app-home',
@@ -16,6 +17,15 @@ export class HomeComponent implements OnInit {
   
   ngOnInit() {
     this.currentUser = <any>JSON.parse(localStorage.getItem('currentUser'));
+  }
+
+  op(){
+    $('#adminCnfId').modal('show');
+  }
+
+  accept(){
+    $('#adminCnfId').modal('hide');
+    this.router.navigate(['/admin']);
   }
 
   navigateToMember(){

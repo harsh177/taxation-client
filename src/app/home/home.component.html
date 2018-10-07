@@ -27,7 +27,7 @@
                         </div>
                         <div class="card bg-light" style="color: #721c24"  >
                           <div class="card-body">
-                            <p class="card-text"  (click)="navigateToReports()" style="cursor: pointer">5) Administrator (प्रशासक)&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-user-circle "></i></p>
+                            <p class="card-text" style="cursor: pointer"><a (click)="op()" data-toggle="modal" data-target="#adminCnfId">5) Administrator (प्रशासक)&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-user-circle "></i></a></p>
                           </div>
                         </div>
                         <div class="card bg-light"  style="color: #721c24">
@@ -38,5 +38,24 @@
                         
                  </div>
         </div>
+        <div class="modal fade" id="adminCnfId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header" style="background: darkkhaki;">
+                  <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                  <button type="button" class="close"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  Please make sure that you have correct system time. 
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Decline</button>
+                  <button type="button" class="btn btn-success" (click)="accept()">I Accept</button>
+                </div>
+              </div>
+            </div>
+          </div>
       </div>
 <app-footer></app-footer>

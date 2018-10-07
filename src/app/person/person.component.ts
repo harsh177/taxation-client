@@ -4,6 +4,7 @@ import { PersonService } from './person.service';
 import {PaginationInstance} from '../../../node_modules/ngx-pagination/dist/ngx-pagination.module';
 import { ToastrService } from '../../../node_modules/ngx-toastr';
 import { NgxSpinnerService } from '../../../node_modules/ngx-spinner';
+declare var   $:any;
 
 @Component({
   selector: 'app-person',
@@ -11,7 +12,7 @@ import { NgxSpinnerService } from '../../../node_modules/ngx-spinner';
   styleUrls: ['./person.component.css']
 })
 export class PersonComponent implements OnInit {
-
+ 
   persons:any = [];
   constructor(private spinner: NgxSpinnerService,private route:ActivatedRoute,private toastr: ToastrService,private router:Router,private  personService:PersonService) { }
 
@@ -43,6 +44,11 @@ export class PersonComponent implements OnInit {
     this.spinner.hide();
       console.log(data);
       this.persons = data.data;
+
+      setTimeout(function(){ 
+        $('[data-toggle="tooltip"]').tooltip();
+       }, 200);
+
     },error=>{
       this.spinner.hide();
       console.log(error);

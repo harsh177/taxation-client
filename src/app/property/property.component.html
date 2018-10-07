@@ -26,7 +26,7 @@ type = "ball-clip-rotate"
                       </label>
                     </div>
                   <input type="text" class="form-control mb-2 mr-sm-2"  name="searchValue" [(ngModel)]="searchValue" placeholder="Search(खोज)">
-                  <button type="button" class="btn btn-success mb-2" (click)="getDetailsByPhoneOrSamagraOrUniqueId()">Search Property</button>
+                  <button type="submit" class="btn btn-success mb-2" (click)="getDetailsByPhoneOrSamagraOrUniqueId()">Search Property</button>
                   <button type="button" class="btn btn-success mb-2" style="margin-left: 200px;" (click)="navigateToAddProperty()">Add Property(संपत्ति जोड़ें)</button>
             </form>
         
@@ -45,7 +45,7 @@ type = "ball-clip-rotate"
                     <th>Property Number</th>
                     <th>Subholder</th>
                     <th>Area</th>
-                    <th>City</th>
+                    <th>District</th>
                     <th>Unique Id</th>
                     <th>samagra Id</th>
                     <th>Actions</th>
@@ -57,10 +57,16 @@ type = "ball-clip-rotate"
                     <td>{{property.propertyNumber}}</td>
                     <td>{{property.subHolder}}</td>
                     <td>{{property.area}}</td>
-                    <td>{{property.city}}</td>
+                    <td>{{property.district}}</td>
                     <td>{{property.customUniqueId}}</td>
                     <td>{{property.samagraId}}</td>
-                    <td><a  style="cursor: pointer;" (click)="op(property.propertyId,property.propertyId,property.samagraId)" data-toggle="modal" data-target="#{{property.propertyId}}"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;<a style="cursor: pointer;" (click)="edit(property)" *ngIf="!property.transferred"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;<a style="cursor: pointer;" (click)="delete(property.propertyId)" *ngIf="!property.transferred"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;<a  style="cursor: pointer;" (click)="op('transfer'+property.propertyId,property.propertyId,property.samagraId)" *ngIf="!property.transferred" data-toggle="modal" data-target="#{{'transfer'+property.propertyId}}"><i class="fa fa-share"></i></a>&nbsp;&nbsp;<a  style="cursor: pointer;" *ngIf="!property.transferred" (click)="navigateToTaxDetails(property.propertyId)"><i class="fa fa-money"></i></a>
+                    <td>
+                      <a  style="cursor: pointer;" (click)="op(property.propertyId,property.propertyId,property.samagraId)" data-toggle="modal" data-target="#{{property.propertyId}}" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;
+                      <a style="cursor: pointer;" (click)="edit(property)" *ngIf="!property.transferred"  data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
+                      <a style="cursor: pointer;" (click)="delete(property.propertyId)" *ngIf="!property.transferred" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;
+                      <a  style="cursor: pointer;" (click)="op('transfer'+property.propertyId,property.propertyId,property.samagraId)" *ngIf="!property.transferred" data-toggle="modal" data-target="#{{'transfer'+property.propertyId}}"  data-toggle="tooltip" data-placement="top" title="Transfer"><i class="fa fa-share"></i></a>&nbsp;&nbsp;
+                      <a style="cursor: pointer;"  (click)="op('patta'+property.propertyId,property.propertyId,property.samagraId)" data-toggle="modal" data-target="#{{'patta'+property.propertyId}}"  data-toggle="tooltip" data-placement="top" title="Print Patta"><i class="fa fa-print" aria-hidden="true"></i></a>&nbsp;&nbsp;
+                      <a  style="cursor: pointer;" *ngIf="!property.transferred" (click)="navigateToTaxDetails(property.propertyId)"  data-toggle="tooltip" data-placement="top" title="Pay Tax"><i class="fa fa-money"></i></a>
                       <div class="modal fade" [id]="property.propertyId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
@@ -83,38 +89,32 @@ type = "ball-clip-rotate"
                                     </div>
                                     <div class="row" style="margin-bottom:20px">
                                       <div class="col"><b>District </b>: {{property.district}}</div>
-                                      <div class="col"></div>
                                       <div class="col"><b>Tehsil</b>: {{property.tehsil}}</div>
+                                      <div class="col"><b>Pincode </b>: {{property.pincode}}</div>
                                     </div>
                                     <div class="row" style="margin-bottom:20px">
-                                          <div class="col"><b>City </b>: {{property.city}}</div>
-                                          <div class="col"><b>Pincode </b>: {{property.pincode}}</div>
                                           <div class="col"><b>Water Connected </b>: {{property.waterConnected==true ? 'YES' : 'NO'}}</div>
-                                    </div>
-                                      <div class="row" style="margin-bottom:20px">
                                           <div class="col"><b>Residential </b>: {{property.isResidential== true ? 'YES' : 'NO'}}</div>
                                           <div class="col"><b>Resident Name </b>: {{property.residentName}}</div>
+                                    </div>
+                                      <div class="row" style="margin-bottom:20px">
                                           <div class="col"><b>East Landmark </b>: {{property.eastLandmark}}</div>
-                                    </div>
-                                    <div class="row" style="margin-bottom:20px">
-                                      <div class="col"><b>West Landmark </b>: {{property.westLandmark}}</div>
+                                          <div class="col"><b>West Landmark </b>: {{property.westLandmark}}</div>
                                       <div class="col"><b>North Landmark </b>: {{property.northLandmark}}</div>
-                                      <div class="col"><b>South Landmark </b>: {{property.southLandmark}}</div>
                                     </div>
                                     <div class="row" style="margin-bottom:20px">
+                                      <div class="col"><b>South Landmark </b>: {{property.southLandmark}}</div>
                                       <div class="col"><b>Water Bill Description </b>: {{property.waterBillDescription}}</div>
                                       <div class="col"><b>Shared Wall Description </b>: {{property.sharedWallDescription}}</div>
-                                      <div class="col"><b>Other Description </b>: {{property.otherDescription}}</div>
                                     </div>
-                                    <div  class="row">
+                                    <div class="row" style="margin-bottom:20px">
+                                      <div class="col"><b>Other Description </b>: {{property.otherDescription}}</div>
                                       <div  class="col"><b>Property Types</b> :<br>
                                         <p *ngFor="let pt  of  property.propertyTypes">{{pt.name}}</p>
                                       </div>
                                       <div  class="col"><b>Property Usages</b> :<br>
                                         <p *ngFor="let pv  of  property.propertyUsages">{{pv.name}}</p>
                                       </div>
-                                      <div  class="col"></div>
-                                        
                                     </div>
                                     <div class="row" style="margin-bottom:20px">
                                       <div class="col"><b>Download Documents </b>: <br>
@@ -165,6 +165,25 @@ type = "ball-clip-rotate"
                               </div>
                             </div>
                           </div>
+                          <div class="modal fade" id="{{'patta'+property.propertyId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header" style="background: darkkhaki;">
+                                  <h5 class="modal-title" id="exampleModalLabel">Property Patta</h5>
+                                  <button type="button" class="close"  (click)="cancel()" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body" id="{{'p'+property.propertyId}}">
+                                    हो। गए, उनका एक समय में बड़ा नाम था। पूरे देश में तालाब बनते थे बनाने वाले भी पूरे देश में थे। कहीं यह विद्या जाति के विद्यालय | सिखाई जाती थी तो कहीं यह जात से हट कर एक विशेष पांत भी जाती थी। बनाने वाले लोग कहीं एक जगह बसे मिलते थे तो कहीं -घूम कर इस काम को करते थे। I 국 घम गजधर एक सुन्दर शब्द है, तालाब बनाने वालों को आदर के साथ याद करने के लिए। राजस्थान के कुछ भागों में यह शब्द आज भी बाकी है। गजधर यानी जो गज को धारण करता है। और गज वही जो नापने के काम आता है। लेकिन फिर भी समाज ने इन्हें तीन हाथ की लोहे की छड़ लेकर घूमने वाला मिस्त्री नहीं माना। गजधर जो समाज को गहराई को नाप ले - उसे ऐसा दर्जा दिया गया है। गजधर वास्तुकार थे। गांव-समाज हो या नगर-समाज - उसके नव निर्माण की, रख-रखाव की ज़िम्मेदारी गजधर निभाते थे। नगर नियोजन से लेकर छोटे से छोटे निर्माण के काम गजधर के कधों पर टिके थे। वे योजना बनाते थे, कुल काम की लागत निकालते थे, काम में लगने वाली सारी सामग्री जुटाते थे और इस सबके बदले वे अपने जजमान से ऐसा कुछ नहीं मांग बैठते थे, जो वे दे न पाएं। लोग भी ऐसे थे कि उनसे जो कुछ बनता, वे गजधर को भेंट कर देते। काम पूरा होने पर पारिश्रमिक के अलावा गजधर को सम्मान ' भी मिलता था। सरोपा भेंट करना अब शायद सिर्फ सिख परंपरा में ही बचा समाज की गहराई नापते रहे हैं गुणाधर
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" (click)="cancel()" data-dismiss="modal">Close</button>
+                                  <button type="button" class="btn btn-success" (click)="downloadPatta('p'+property.propertyId)">Download</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                     </td>
                     <td><label *ngIf="property.transferred">Transfered To: {{property.transferredToSamagraId}}</label></td>
                   </tr>
@@ -184,5 +203,5 @@ type = "ball-clip-rotate"
                                      (pageChange)="onPageChange($event)"></pagination-controls>
             </div>
         </div>
-    </div>        
+    </div>       
 <app-footer></app-footer>

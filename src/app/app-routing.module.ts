@@ -12,6 +12,7 @@ import { TaxDetailsComponent } from './tax-details/tax-details.component';
 import { AuthGuardService } from './guard/auth-guard';
 import { PrintComponent } from './print/print.component';
 import { ReportComponent } from './report/report.component';
+import { AdminComponent } from './admin/admin.component';
 
 
 const routes: Routes = [
@@ -23,7 +24,8 @@ const routes: Routes = [
   { path: 'property/add/:action',component:PropertyAddComponent, canActivate:[AuthGuardService]},
   { path: 'paytax', component: PayTaxComponent , canActivate:[AuthGuardService]},
   { path: 'taxdetails/:id', component: TaxDetailsComponent,canActivate:[AuthGuardService] },
-  { path: 'reports', component: ReportComponent , canActivate:[AuthGuardService]},  
+  { path: 'reports', component: ReportComponent , canActivate:[AuthGuardService]},
+  { path: 'admin', component: AdminComponent , canActivate:[AuthGuardService]},  
   { path: 'print/:id', component: PrintComponent,canActivate:[AuthGuardService] },  
   { path: '**', redirectTo: '' }
 ];

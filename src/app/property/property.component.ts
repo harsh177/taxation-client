@@ -5,6 +5,8 @@ import { PropertyService } from './proprty.service';
 import { ToastrService } from '../../../node_modules/ngx-toastr';
 import { PersonService } from '../person/person.service';
 import { NgxSpinnerService } from '../../../node_modules/ngx-spinner';
+import  * as  jsPDF from  'jspdf';
+import  * as  html2canvas from  'html2canvas';
 declare var   $:any;
 
 @Component({
@@ -27,6 +29,9 @@ export class PropertyComponent implements OnInit {
       this.action = param.get('action');  
       console.log(this.action);
     })
+
+
+
   }
 
   transferObj={
@@ -48,6 +53,19 @@ export class PropertyComponent implements OnInit {
       this.ctId = v;
       this.transferObj.propertyId=id.toString();
     }
+    
+  }
+
+  downloadPatta(id){
+    html2canvas(document.getElementById(id)).then(function(canvas) {
+      console.log(canvas);
+    var img = canvas.toDataURL("image/png");
+    var doc = new jsPDF();
+    doc.addImage(img,'JPEG',15,10);
+    //doc.addImage(imgData, 'JPEG', left margin , top margin, width, length)
+    var d = new Date();
+    doc.save('Property_Patta_'+d+'.pdf');
+    });
   }
 
   cancel(){
@@ -213,6 +231,12 @@ export class PropertyComponent implements OnInit {
       if(this.properties.length==0)this.error=true;
       else  this.error=false;
       console.log(this.properties);
+      
+     
+      setTimeout(function(){ 
+        $('[data-toggle="tooltip"]').tooltip();
+       }, 200);
+
     },error=>{
       this.properties = [];
       this.spinner.hide();

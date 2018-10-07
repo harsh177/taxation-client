@@ -7,6 +7,7 @@
     type = "ball-clip-rotate"
     ></ngx-spinner>
 <div class="row">
+  
     <label *ngIf="persons.length>0" style="padding-top: 5px;">Search members:</label>&nbsp;
     <input *ngIf="persons.length>0" type="text" class="form-control" style="width: 25%"    placeholder="Search" [(ngModel)]="filter">
     <button class="btn btn-success" style="margin-left: auto;" (click)="navigateToAddMember()">Add Member</button>
@@ -30,7 +31,9 @@
             <td>{{person.name}}</td>
             <td>{{person.samagraId}}</td>
             <td>{{person.phone}}</td>
-            <td><a  style="cursor: pointer;"  (click)="edit(person.personId)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;<a  style="cursor: pointer;"  (click)="delete(person.personId)"><i class="fa fa-trash"></i></a></td>
+            <td>
+              <a  style="cursor: pointer;"  data-toggle="tooltip" data-placement="top" title="Edit" (click)="edit(person.personId)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
+              <a  style="cursor: pointer;"  data-toggle="tooltip" data-placement="top" title="Delete" (click)="delete(person.personId)"><i class="fa fa-trash"></i></a></td>
           </tr>
         </tbody>
       </table>
