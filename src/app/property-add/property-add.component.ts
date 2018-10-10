@@ -6,6 +6,7 @@ import { ToastrService } from '../../../node_modules/ngx-toastr';
 import { Router, ActivatedRoute, ParamMap } from '../../../node_modules/@angular/router';
 import { FormGroup, FormBuilder, Validators } from '../../../node_modules/@angular/forms';
 import { NgxSpinnerService } from '../../../node_modules/ngx-spinner';
+import { Common } from '../common';
 
 @Component({
   selector: 'app-property-add',
@@ -19,11 +20,7 @@ export class PropertyAddComponent implements OnInit {
   searchBy="SAMAGRA";
   searchValue = "";
 
-  areas=["--Select--","Shivnagar","Hanuman Chowk","Patidar Manglik Bahavan","Ghatta Ki Fer"
-  ,"Bavdi Chowk","Patel Galli","Ambemata Chowk","Taravat Chowk","Makati Mohalla","Gandhi Chowk","Naya Bazar","Chvara Mohalla","Sadar Bazar","Ramgarh",
-"Bus Stand, Teja Chowk","Maruti Nagar","Ambedkar Nagar(Nayapura)","Satrunda Marg","Purani Basti","Mayta Kua Galli","Bhoi Vaas",
-"Aamlipaada","Moyapaada","Gurjarpaada","Buvanipaada Mataji","Bhurighanti","Bhuvanipaada Banjara Basti","Khedi","Piplipaada",
-"Panjpaada","Rundakhedi","Implipaada Bid","Mahudipaada","Kundaal Demwali","Kundaal Navin","Motipura","Nai Abadi 1061"];
+  areas=Common.areas;
 
   cities=["Ratlam"];
 

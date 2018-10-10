@@ -21,6 +21,7 @@ export class PersonComponent implements OnInit {
   }
 
   edit(id){
+    $(".tooltip").tooltip("hide");
     this.personService.setId(id);
     this.router.navigate(['/member/add',false]);
   }

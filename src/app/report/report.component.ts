@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '../../../node_modules/@angular/forms';
 import { ReportService } from '../report.service';
+import { Common } from '../common';
 
 @Component({
   selector: 'app-report',
@@ -9,14 +10,18 @@ import { ReportService } from '../report.service';
 })
 export class ReportComponent implements OnInit {
 
-  allstatus=["DUE","PAID"];
+  allstatus=["DUE","PAID","PROPERTIES"];
+  
+  areas=Common.areas;
+
   reportForm: FormGroup;
 
   constructor(private fb: FormBuilder,private reportService:ReportService) { }
 
   ngOnInit() {
     this.reportForm = this.fb.group({
-      statusControl: ['DUE']
+      statusControl: ['DUE'],
+      area: ['--Select--']
     });
   }
 
@@ -29,7 +34,7 @@ export class ReportComponent implements OnInit {
     // });
     let link = document.createElement('a');
     link.setAttribute('type', 'hidden');
-    link.href = 'http://localhost:8080/api/downloadFile/report/'+this.reportForm.value.statusControl;
+    link.href = 'http://localhost:8080/api/downloadFile/report/'+this.reportForm.value.statusControl+'?area='+this.reportForm.value.area;
     document.body.appendChild(link);
     link.click();
     link.remove();

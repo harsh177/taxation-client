@@ -73,11 +73,13 @@ export class PropertyComponent implements OnInit {
   }
 
   edit(propertyObj){
+    $(".tooltip").tooltip("hide");
     this.propertyService.setPropertyObj(propertyObj);
     this.router.navigate(['/property/add',false]);
   }
 
   delete(propertyId){
+    $(".tooltip").tooltip("hide");
     this.spinner.show();
     this.propertyService.deleteProperty(propertyId).subscribe(data=>{
       this.spinner.hide();
@@ -91,10 +93,12 @@ export class PropertyComponent implements OnInit {
   }
 
   navigateToTaxDetails(propertyId){
+    $(".tooltip").tooltip("hide");
     this.router.navigate(['/taxdetails',propertyId]);
   }
 
   transferProperty(){
+    $(".tooltip").tooltip("hide");
     if(this.transferObj.propertyId=="" ||  this.transferObj.transferToSamagraId=="" || this.transferObj.newSubHolder=="" ||  this.transferObj.residentName=="" )return;
     this.spinner.show();
     this.propertyService.transferProperty(this.transferObj).subscribe(data=>{

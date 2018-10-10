@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, ParamMap } from '../../../node_modules/@angular
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { TaxDetailsService } from './tax-details.service';
 import { PaginationInstance } from '../../../node_modules/ngx-pagination';
+import { NgxSpinnerService } from '../../../node_modules/ngx-spinner';
 
 @Component({
   selector: 'app-tax-details',
@@ -13,7 +14,7 @@ export class TaxDetailsComponent implements OnInit {
   
   taxDetails = [];
   propertyId = "";
-  constructor(private route:ActivatedRoute,private router:Router,private modalService: NgbModal,private taxDetailService:TaxDetailsService) { }
+  constructor(private spinner: NgxSpinnerService,private route:ActivatedRoute,private router:Router,private modalService: NgbModal,private taxDetailService:TaxDetailsService) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((param:ParamMap)=>{
@@ -32,20 +33,26 @@ export class TaxDetailsComponent implements OnInit {
   }
 
   getTaxDetails(propertyId){
+    this.spinner.show();
     this.taxDetailService.getTaxDetailsByPropertyId(propertyId).subscribe(data=>{
+      this.spinner.hide();
       this.taxDetails = <any[]>data.data;
       console.log(this.taxDetails);
     },error=>{
+      this.spinner.hide();
       console.log(error);
     });
   }
 
   payTax(taxDetailId){
+    this.spinner.show();
     let details = this.taxDetails.filter(obj=>obj.taxDetailId==taxDetailId);
     console.log(details);
     this.taxDetailService.updateTaxStatus(details).subscribe(data=>{
+      this.spinner.hide();
       this.getTaxDetails(this.propertyId);
     },error=>{
+      this.spinner.hide();
       console.log(error);
     });
   }
