@@ -7,6 +7,7 @@ import { PersonService } from '../person/person.service';
 import { NgxSpinnerService } from '../../../node_modules/ngx-spinner';
 import  * as  jsPDF from  'jspdf';
 import  * as  html2canvas from  'html2canvas';
+import { Common } from '../common';
 declare var   $:any;
 
 @Component({
@@ -77,8 +78,16 @@ export class PropertyComponent implements OnInit {
     this.propertyService.setPropertyObj(propertyObj);
     this.router.navigate(['/property/add',false]);
   }
+  deleteKey = Common.deleteKey;
 
   delete(propertyId){
+    var val = prompt("Please enter your key to delete", "");
+    if(val.trim().length==0)return;
+    if(val!=this.deleteKey){
+      this.toastr.error('Invalid Key, Try again','Error');
+      return;
+    }
+
     $(".tooltip").tooltip("hide");
     this.spinner.show();
     this.propertyService.deleteProperty(propertyId).subscribe(data=>{

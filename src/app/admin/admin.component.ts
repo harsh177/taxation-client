@@ -20,10 +20,13 @@ export class AdminComponent implements OnInit {
     this.adminService.calculateTax().subscribe(data=>{
       this.spinner.hide();
         console.log(data);
-        this.toastr.success("All Properties tax calculated","Success");
+        if(data.status)
+        this.toastr.success(data.data,"Success");
+        else  this.toastr.error(data.data,"Error");
       },error=>{
         this.spinner.hide();
         console.log(error);
+        this.toastr.error(error.data,"Error");
     });
   }
 

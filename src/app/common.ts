@@ -5,5 +5,5 @@ export class Common{
   "Bus Stand, Teja Chowk","Maruti Nagar","Ambedkar Nagar(Nayapura)","Satrunda Marg","Purani Basti","Mayta Kua Galli","Bhoi Vaas",
   "Aamlipaada","Moyapaada","Gurjarpaada","Buvanipaada Mataji","Bhurighanti","Bhuvanipaada Banjara Basti","Khedi","Piplipaada",
   "Panjpaada","Rundakhedi","Implipaada Bid","Mahudipaada","Kundaal Demwali","Kundaal Navin","Motipura","Nai Abadi 1061"];
-  
+    public static deleteKey="Sushil@123"; 
 }

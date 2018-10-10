@@ -4,6 +4,7 @@ import { PersonService } from './person.service';
 import {PaginationInstance} from '../../../node_modules/ngx-pagination/dist/ngx-pagination.module';
 import { ToastrService } from '../../../node_modules/ngx-toastr';
 import { NgxSpinnerService } from '../../../node_modules/ngx-spinner';
+import { Common } from '../common';
 declare var   $:any;
 
 @Component({
@@ -25,8 +26,16 @@ export class PersonComponent implements OnInit {
     this.personService.setId(id);
     this.router.navigate(['/member/add',false]);
   }
+  deleteKey = Common.deleteKey;
 
   delete(id){
+    var val = prompt("Please enter your key to delete", "");
+    if(val.trim().length==0)return;
+    if(val!=this.deleteKey){
+      this.toastr.error('Invalid Key, Try again','Error');
+      return;
+    }
+    $(".tooltip").tooltip("hide");
     this.spinner.show();
     this.personService.deletePerson(id).subscribe(data=>{
       this.spinner.hide();
@@ -35,6 +44,7 @@ export class PersonComponent implements OnInit {
       this.getPersons();
     },error=>{
       this.spinner.hide();
+      this.toastr.error(error.data,'Error');
       console.log(error);
     });  
   }
