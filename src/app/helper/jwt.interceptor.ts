@@ -3,11 +3,12 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpResponse, Htt
 import { Observable } from 'rxjs';
 import { tap } from '../../../node_modules/rxjs/operators';
 import { NgxSpinnerService } from '../../../node_modules/ngx-spinner';
+import { Router } from '../../../node_modules/@angular/router';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
     
-    constructor(){}
+    constructor(private router:Router){}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // add authorization header with jwt token if available
@@ -39,6 +40,7 @@ export class JwtInterceptor implements HttpInterceptor {
                 console.log("--- end of response---");
                   if (error instanceof HttpErrorResponse) {
                     if (error.status === 401) {
+                      this.router.navigate(['/login']);
                       // redirect to the login route
                       // or show a modal
                     }
