@@ -65,7 +65,7 @@ type = "ball-clip-rotate"
                       <a style="cursor: pointer;" (click)="edit(property)" *ngIf="!property.transferred"  data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
                       <a style="cursor: pointer;" (click)="delete(property.propertyId)" *ngIf="!property.transferred" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;
                       <a  style="cursor: pointer;" (click)="op('transfer'+property.propertyId,property.propertyId,property.samagraId)" *ngIf="!property.transferred" data-toggle="modal" data-target="#{{'transfer'+property.propertyId}}"  data-toggle="tooltip" data-placement="top" title="Transfer"><i class="fa fa-share"></i></a>&nbsp;&nbsp;
-                      <!-- <a style="cursor: pointer;"  (click)="op('patta'+property.propertyId,property.propertyId,property.samagraId)" data-toggle="modal" data-target="#{{'patta'+property.propertyId}}"  data-toggle="tooltip" data-placement="top" title="Print Patta"><i class="fa fa-print" aria-hidden="true"></i></a>&nbsp;&nbsp; -->
+                      <a style="cursor: pointer;"  (click)="op('patta'+property.propertyId,property.propertyId,property.samagraId)" data-toggle="modal" data-target="#{{'patta'+property.propertyId}}"  data-toggle="tooltip" data-placement="top" title="Print Patta"><i class="fa fa-print" aria-hidden="true"></i></a>&nbsp;&nbsp;
                       <a  style="cursor: pointer;" *ngIf="!property.transferred" (click)="navigateToTaxDetails(property.propertyId)"  data-toggle="tooltip" data-placement="top" title="Pay Tax"><i class="fa fa-money"></i></a>
                       <div class="modal fade" [id]="property.propertyId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog modal-lg" role="document">
@@ -166,7 +166,7 @@ type = "ball-clip-rotate"
                             </div>
                           </div>
                           <div class="modal fade" id="{{'patta'+property.propertyId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
+                            <div class="modal-dialog modal-lg" role="document">
                               <div class="modal-content">
                                 <div class="modal-header" style="background: darkkhaki;">
                                   <h5 class="modal-title" id="exampleModalLabel">Property Patta</h5>
@@ -175,27 +175,42 @@ type = "ball-clip-rotate"
                                   </button>
                                 </div>
                                 <div class="modal-body" id="{{'p'+property.propertyId}}">
-                                  कार्यालय ग्राम पंचायत
+                                  
+                                  <div  style="margin-left: 5%;margin-right: 5%">
 
-                                  जनपद पंचायत  (म.पृ .) 
+                                  <div  style="text-align: center;font-weight: bold;"> कार्यालय ग्राम पंचायत</div>
+
+                                  <div style="text-align: center;font-weight: bold;">जनपद पंचायत <u></u>  जिला  <u></u> (म.प्र.) </div>
+                                  <br>
+                                  <div>
+                                   <span> क्रमांक <u>{{property.propertyNumber}}</u> </span><span  style="float: right">दिनांक : _________</span>
+                                  </div>
+                                  <div><span>अलग पहचान क्रमांक  <u>{{property.customUniqueId}}</u></span><span  style="float: right">समग्रा आई.डी.  <u>{{property.samagraId}}</u></span></div>
+                                 <br>
+                                 <div style="text-align: center;font-weight: bold;"><u> प्रमाण पत्र (पट्टा)</u></div><br>
                                   
-                                  क्रमांक _______                                     					दिनांक
-                                   प्रमाण पत्र (पट्टा)
-                                  
-                                  प्रमाणित किया जाता है की पिता____ श्रीमती ____पति  ___ जाती___ निवासी ___जिला ___ को ग्राम स्थल सर्वे क्रमांक में स्थित निचे उल्लेखित भू -खंड / भवन  के भूमि स्वामित्व  के अधिकार में है सामलाती दीवार का विवरण 
-                                  १. भवन का प्रकार 
-                                  २. छत का  प्रकार प्रकार 
-                                  ३. अन्य विवरण 
-                                  
-                                  चतुः सीमा :
-                                  पूर्व 
-                                  पश्चिम 
-                                  उत्तर 
-                                  दक्षिण 
-                                  
-                                  सामलाती दीवार का विवरण 
-                                  उपरोक्त वर्णित स्थल का प्रमाण पत्र (पट्टा ) भू राजस्व संहिता १९५९ की धारा २४६ के नियम १,२,३,४ के अंतर्गत पंचायत में पारित प्रस्ताव क्रमांक __ दिनांक __ के अनुसार कार्यालय की मुद्रा एवं हमारे हस्ताक्षर जारी किया जाता है | 
-                                  नोट :- भू खंड पर 1 वर्ष में भवन निर्माण करना आवश्यक है अन्यथा पट्टा निरस्त माना जाएगा |                                 </div>
+                                  प्रमाणित किया जाता है की {{personDetails.gender=="MALE"?"श्री":"श्रीमती"}} <u>{{personDetails.name}}</u> पिता/पति <u>{{personDetails.father==""?personDetails.husband:personDetails.father}}</u> जाती <u>{{personDetails.caste}}</u> निवासी <u>{{property.area+", "+property.village}}</u> जिला <u>{{property.district}}</u> को ग्राम स्थल सर्वे क्रमांक _____ में स्थित निचे उल्लेखित भू -खंड / भवन  के भूमि स्वामित्व  के अधिकार में है सामलाती दीवार का विवरण <br>
+                                  १. भवन का प्रकार <u>{{exp(property.propertyTypes).join(", ")}}</u><br>
+                                  २. छत का  प्रकार प्रकार <br>
+                                  ३. अन्य विवरण <u>{{property.otherDescription}}</u><br>
+                                  <br>
+                                  चतुः सीमा :<br>
+                                  पूर्व <u>{{property.eastLandmark}}</u><br>
+                                  पश्चिम <u>{{property.westLandmark}}</u><br>
+                                  उत्तर <u>{{property.northLandmark}}</u><br>
+                                  दक्षिण <u>{{property.southLandmark}}</u><br>
+                                  <br>
+                                  सामलाती दीवार का विवरण <u>{{property.sharedWallDescription}}</u><br>
+                                  <br>
+                                  उपरोक्त वर्णित स्थल का प्रमाण पत्र (पट्टा ) भू राजस्व संहिता १९५९ की धारा २४६ के नियम १,२,३,४ के अंतर्गत पंचायत में पारित प्रस्ताव क्रमांक ____ दिनांक _____ के अनुसार कार्यालय की मुद्रा एवं हमारे हस्ताक्षर जारी किया जाता है | 
+                                  नोट :- भू खंड पर 1 वर्ष में भवन निर्माण करना आवश्यक है अन्यथा पट्टा निरस्त माना जाएगा |  
+                                  <br>
+                                  <br>
+                                  <br>
+                                  <div><span  style="font-weight: bold;">सचिव</span><span style="float:right;font-weight: bold;">सरपंच</span></div>
+                                
+                                  </div>
+                                </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" (click)="cancel()" data-dismiss="modal">Close</button>
                                   <button type="button" class="btn btn-success" (click)="downloadPatta('p'+property.propertyId)">Download</button>

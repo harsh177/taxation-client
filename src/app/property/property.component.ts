@@ -21,6 +21,7 @@ export class PropertyComponent implements OnInit {
   searchBy  = "SAMAGRA";
   properties:any = [];
   error = false;
+  currentUser:any;
   constructor(private spinner: NgxSpinnerService,private personService:PersonService,private toastr: ToastrService,private route:ActivatedRoute,private router:Router,private propertyService:PropertyService) {}
 
   ngOnInit() {
@@ -31,8 +32,7 @@ export class PropertyComponent implements OnInit {
       console.log(this.action);
     })
 
-
-
+    this.currentUser = <any>JSON.parse(localStorage.getItem('currentUser'));
   }
 
   transferObj={
@@ -62,11 +62,15 @@ export class PropertyComponent implements OnInit {
       console.log(canvas);
     var img = canvas.toDataURL("image/png");
     var doc = new jsPDF();
-    doc.addImage(img,'JPEG',15,10);
+    doc.addImage(img,'JPEG',5,10);
     //doc.addImage(imgData, 'JPEG', left margin , top margin, width, length)
     var d = new Date();
     doc.save('Property_Patta_'+d+'.pdf');
     });
+  }
+
+  exp(e){
+    return  e.reduce(function(all,item,index){all.push(item.name);return all;},[]);
   }
 
   cancel(){
@@ -215,6 +219,7 @@ export class PropertyComponent implements OnInit {
   };
 
   searchValue="";
+  personDetails:any={};
 
   getDetailsByPhoneOrSamagraOrUniqueId(){
     if(this.searchValue.trim().length==0)return;
@@ -240,11 +245,12 @@ export class PropertyComponent implements OnInit {
     this.spinner.show();
     this.propertyService.getPropertyByPhoneOrSamagraOrUniqueId(this.phoneOrSamagraOrUnique).subscribe(data=>{
       this.spinner.hide();
-      this.properties = <any>data.data;
+      let propertyDetailsObj = <any>data.data;
+      this.personDetails  = <any>propertyDetailsObj.person;
+      this.properties = <any>propertyDetailsObj.propertyList;
       if(this.properties.length==0)this.error=true;
       else  this.error=false;
       console.log(this.properties);
-      
      
       setTimeout(function(){ 
         $('[data-toggle="tooltip"]').tooltip();
@@ -252,6 +258,7 @@ export class PropertyComponent implements OnInit {
 
     },error=>{
       this.properties = [];
+      this.personDetails  = {};
       this.spinner.hide();
       this.error=true;
       console.log(error);
