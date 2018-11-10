@@ -41,6 +41,10 @@ type = "ball-clip-rotate"
       <hr *ngIf="action=='true'">
   <form [formGroup]="propertyForm">
       <div class="form-row mt-4">
+          <div class="col-sm-6 pb-3" *ngIf="action=='true'">
+              <label>Registration Date(संपत्ति पंजीकरण दिनांक):</label>
+              <input type="date" class="form-control" formControlName="regDate">
+            </div>
     <div class="col-sm-6 pb-3" >
       <label for="pnumber">Property Number(संप्तति संख्या):</label>
       <input type="text" class="form-control" formControlName="propertyNumber">
@@ -57,16 +61,6 @@ type = "ball-clip-rotate"
     <div class="col-sm-6 pb-3">
       <label for="pnumber">Property Subholder(संपत्ति उप धारक):</label>
       <input type="text" class="form-control" formControlName="subHolder">
-      <p style="color: #721c24;" *ngIf="propertyForm.controls['subHolder'].hasError('required')">
-          Please enter property subHolder
-        </p>
-        <p style="color: #721c24;" *ngIf="propertyForm.controls['subHolder'].hasError('minlength')">
-            Please enter at least 2 characters
-        </p>
-        <p style="color: #721c24;" *ngIf="propertyForm.controls['subHolder'].hasError('maxlength')">
-            Property Number can not exceed 50 characters
-        </p>    
-
     </div>
     <div class="col-sm-6 pb-3">
       <!-- <label for="parea">Area:</label>
@@ -173,7 +167,7 @@ type = "ball-clip-rotate"
         </p>    
     </div>
     <div class="col-sm-6 pb-3">
-      <label>Property Usage(संपत्ति का उपयोग):</label><br>
+      <!-- <label>Property Usage(संपत्ति का उपयोग):</label><br>
       <div *ngFor="let propertyUsage of propertyUsages" class="form-check-inline">
         <label class="form-check-label">
           <input type="checkbox" class="form-check-input" [checked]="propertyUsage.checked" (change)="onUsageChange(propertyUsage.propertyUsageId, $event.target.checked)"  name="pu" [value]="propertyUsage.propertyUsageId">{{propertyUsage.name}}
@@ -181,10 +175,27 @@ type = "ball-clip-rotate"
       </div>
       <p style="color: #721c24;" *ngIf="error.propertyUsageSelected">
           Please select at least one usage
-      </p>
+      </p> -->
+      <div class="form-group">
+        <label>Property Usage(संपत्ति का उपयोग):&nbsp;</label>
+        <select class="form-control"  formControlName="propertyUsage">
+            <option value="--Select--">--Select--</option>
+            <option [value]="a.propertyUsageId" *ngFor="let a of propertyUsages">
+              <label *ngIf="a.name=='FAMILY'">{{a.name+" (परिवार)"}}</label>
+              <label *ngIf="a.name=='AGRICULTURE'">{{a.name+" (कृषि)"}}</label>
+              <label *ngIf="a.name=='ANIMAL HUSBANDRY'">{{a.name+" (पशुपालन)"}}</label>
+              <label *ngIf="a.name=='OTHERS'">{{a.name+" (अन्य)"}}</label>
+              <label *ngIf="a.name=='SHOP'">{{a.name+" (दुकान)"}}</label>
+              <label *ngIf="a.name=='WAREHOUSE'">{{a.name+" (गोदाम)"}}</label>
+            </option>
+        </select>
+    </div>
+    <p style="color: #721c24;" *ngIf="propertyUsageError">
+        Please select property usage
+    </p>
     </div>
     <div class="col-sm-6 pb-3">
-      <label>Property Type(संपत्ति का प्रकार):</label><br>
+      <!-- <label>Property Type(संपत्ति का प्रकार):</label><br>
       <div *ngFor="let propertyType of propertyTypes" class="form-check-inline">
         <label class="form-check-label">
           <input type="checkbox" class="form-check-input"  [checked]="propertyType.checked" (change)="onTypeChange(propertyType.propertyTypeId, $event.target.checked)" name="pt" [value]="propertyType.propertyTypeId">{{propertyType.name}}
@@ -192,7 +203,22 @@ type = "ball-clip-rotate"
       </div>
       <p style="color: #721c24;" *ngIf="error.propertyTypeSelected">
           Please select at least one property type
-      </p>
+      </p> -->
+      <div class="form-group">
+        <label>Property Type(संपत्ति का प्रकार):&nbsp;</label>
+        <select class="form-control"  formControlName="propertyType">
+            <option value="--Select--">--Select--</option>
+            <option [value]="a.propertyTypeId" *ngFor="let a of propertyTypes">
+              <label *ngIf="a.name=='CONCRETE HOUSE'">{{a.name+" (पक्का)"}}</label>
+              <label *ngIf="a.name=='HALF MUD HOUSE'">{{a.name+" (अर्ध पक्का)"}}</label>
+              <label *ngIf="a.name=='KAWELU'">{{a.name+" (कवेलू)"}}</label>
+              <label *ngIf="a.name=='MUD HOUSE'">{{a.name+" (कच्चा)"}}</label>
+            </option>
+        </select>
+    </div>
+    <p style="color: #721c24;" *ngIf="propertyTypeError">
+        Please select property type
+    </p>
     </div>
     <div class="col-sm-6 pb-3">
       <label for="plength">Length(लंबाई):</label>

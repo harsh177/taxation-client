@@ -181,9 +181,9 @@ type = "ball-clip-rotate"
                                   padding-right: 1%;
                                   border-style: double;">
 
-                                  <div  style="text-align: center;font-weight: bold;"> कार्यालय ग्राम पंचायत</div>
+                                  <div  style="text-align: center;font-weight: bold;"> कार्यालय ग्राम पंचायत, {{currentUser.panchayat.name}}</div>
 
-                                  <div style="text-align: center;font-weight: bold;">जनपद पंचायत <u></u>  जिला  <u></u> (म.प्र.) </div>
+                                  <div style="text-align: center;font-weight: bold;">जनपद पंचायत, {{currentUser.panchayat.name}}  जिला {{currentUser.panchayat.district}} (म.प्र.) </div>
                                   <br>
                                   <div>
                                    <span> क्रमांक <u>{{property.propertyNumber}}</u> </span><span  style="float: right">दिनांक : _________</span>
@@ -194,7 +194,7 @@ type = "ball-clip-rotate"
                                   
                                   प्रमाणित किया जाता है की {{personDetails.gender=="MALE"?"श्री":"श्रीमती"}} <u>{{personDetails.name}}</u> पिता/पति <u>{{personDetails.father==""?personDetails.husband:personDetails.father}}</u> जाती <u>{{personDetails.caste}}</u> निवासी <u>{{property.area+", "+property.village}}</u> जिला <u>{{property.district}}</u> को ग्राम स्थल सर्वे क्रमांक _____ में स्थित निचे उल्लेखित भू -खंड / भवन  के भूमि स्वामित्व  के अधिकार में है सामलाती दीवार का विवरण <br>
                                   १. भवन का प्रकार <u>{{exp(property.propertyTypes).join(", ")}}</u><br>
-                                  २. छत का  प्रकार प्रकार <br>
+                                  २. छत का  प्रकार <br>
                                   ३. गंदे पानी का निकास का विवरण <br>
                                   ४. बरसाती पानी के निकास का विवरण <br>
                                   ५. टट्टी या मोरी का विवरण <br>

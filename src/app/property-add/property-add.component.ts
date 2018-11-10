@@ -25,10 +25,13 @@ export class PropertyAddComponent implements OnInit {
   cities=["Ratlam"];
 
   property:any={
+    regDate:"",
     propertyId:"",
     propertyNumber:"",
     subHolder:"",
     area:"",
+    propertyUsage:"",
+    propertyType:"",
     village:"",
     district:"",
     tehsil:"",
@@ -77,10 +80,17 @@ export class PropertyAddComponent implements OnInit {
   action;
   propertyObj:any;
   areaError=false;
+  propertyUsageError=false;
+  propertyTypeError=false;
 
+  cDate;
   constructor(private spinner: NgxSpinnerService,private route:ActivatedRoute,private _formBuilder:FormBuilder,private propertyService:PropertyService,private toastr: ToastrService,private router:Router) { }
 
+
   ngOnInit() {
+    var currentDate = new Date();
+    this.cDate = currentDate.getFullYear()+"-"+("0" + (currentDate.getMonth() + 1)).slice(-2)+"-"+("0" + currentDate.getDate()).slice(-2);
+console.log(this.cDate);
 
     this.route.paramMap.subscribe((param:ParamMap)=>{
       this.action = param.get('action'); 
@@ -99,6 +109,7 @@ export class PropertyAddComponent implements OnInit {
     this.uuid = this.generateUUID();
 
     this.propertyForm = this._formBuilder.group({
+      regDate:[this.cDate],
       propertyId:[""],
       samagraId:[""],
       customUniqueId:[""],
@@ -109,8 +120,10 @@ export class PropertyAddComponent implements OnInit {
       transferredToSamagraId:[null],
       transferred:[false],
       propertyNumber:["",[Validators.required,Validators.minLength(1),Validators.maxLength(50)]],
-      subHolder:["",[Validators.required,Validators.minLength(2),Validators.maxLength(50)]],
+      subHolder:[""],
       area:["--Select--"],
+      propertyUsage:["--Select--"],
+      propertyType:["--Select--"],
       village:["",[Validators.required,Validators.minLength(2),Validators.maxLength(50)]],
       district:["",[Validators.required,Validators.minLength(2),Validators.maxLength(50)]],
       tehsil:["",[Validators.required,Validators.minLength(2),Validators.maxLength(50)]],
@@ -141,6 +154,9 @@ export class PropertyAddComponent implements OnInit {
     else  this.propertyObj.waterConnected="NO";
     delete this.propertyObj.isWaterConnected;
 
+    this.propertyObj.regDate = this.cDate;
+    this.propertyObj.propertyType = "--Select--";
+    this.propertyObj.propertyUsage = "--Select--";
     this.propertyForm.setValue(this.propertyObj);
   }
 
@@ -154,8 +170,10 @@ export class PropertyAddComponent implements OnInit {
         
         if(this.action=='false' &&  this.propertyObj!=undefined){
         this.propertyObj.propertyUsages.forEach(obj1=> {
-          if(obj.propertyUsageId==obj1.propertyUsageId)
+          if(obj.propertyUsageId==obj1.propertyUsageId){
             obj.checked = true;
+            this.propertyForm.controls['propertyUsage'].setValue(obj.propertyUsageId);
+          }
          })
          
         }else obj.checked = false;
@@ -172,8 +190,10 @@ export class PropertyAddComponent implements OnInit {
       this.propertyTypes.forEach(obj=> {
         if(this.action=='false' &&  this.propertyObj!=undefined){
         this.propertyObj.propertyTypes.forEach(obj1=> {
-          if(obj.propertyTypeId==obj1.propertyTypeId)
+          if(obj.propertyTypeId==obj1.propertyTypeId){
             obj.checked = true;
+            this.propertyForm.controls['propertyType'].setValue(obj.propertyTypeId);
+          }
          })
          
         }else obj.checked = false;
@@ -201,9 +221,19 @@ export class PropertyAddComponent implements OnInit {
       return;
     }else this.areaError=false;
 
+    if(this.property.propertyUsage=="--Select--"){
+      this.propertyUsageError=true;
+      return;
+    }else this.propertyUsageError=false;
+
+    if(this.property.propertyType=="--Select--"){
+      this.propertyTypeError=true;
+      return;
+    }else this.propertyTypeError=false;
+
     this.property.samagraId = samagraId;
-    this.property.propertyUsages = this.propertyUsages.filter(obj => obj.checked).map(obj => { return {propertyUsageId:obj.propertyUsageId,name: obj.name}});
-    this.property.propertyTypes = this.propertyTypes.filter(obj => obj.checked).map(obj => { return {propertyTypeId:obj.propertyTypeId,name: obj.name}});
+    this.property.propertyUsages = this.propertyUsages.filter(obj => obj.propertyUsageId==this.property.propertyUsage).map(obj => { return {propertyUsageId:obj.propertyUsageId,name: obj.name}});
+    this.property.propertyTypes = this.propertyTypes.filter(obj => obj.propertyTypeId==this.property.propertyType).map(obj => { return {propertyTypeId:obj.propertyTypeId,name: obj.name}});
 
     if(this.property.residential=='YES')this.property.isResidential=true;
     else this.property.isResidential=false;
@@ -226,7 +256,7 @@ export class PropertyAddComponent implements OnInit {
 
     console.log(this.property);
 
-    if(!this.isCheckboxesSelected())return;
+    //if(!this.isCheckboxesSelected())return;
 
     this.spinner.show();
     if(this.action=='true'){
@@ -290,10 +320,13 @@ export class PropertyAddComponent implements OnInit {
   resetData(){
     
     this.property={
+      regDate:"",
       propertyId:"",
       propertyNumber:"",
       subHolder:"",
       area:"",
+      propertyUsage:"",
+      propertyType:"",
       village:"",
       district:"",
       tehsil:"",  
